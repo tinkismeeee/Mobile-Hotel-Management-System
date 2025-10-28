@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -51,12 +51,13 @@
                 android:background="@drawable/rounded_edittext"
                 android:ems="10"
                 android:hint="Enter your password"
-                android:inputType="text|textEmailAddress"
+                android:inputType="textPassword"
                 android:minHeight="48dp"
                 android:paddingLeft="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                android:nextFocusDown="@id/signinBtn"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <ImageView
@@ -137,16 +138,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="?attr/homeAsUpIndicator" />
 
-        <RadioButton
-            android:id="@+id/rememberBtn"
-            android:layout_width="136dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:alpha="0.7"
-            android:text="Remember Me?"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
         <TextView
             android:id="@+id/forgotPassword"
             android:layout_width="111dp"
@@ -158,9 +149,20 @@
             android:textColor="#FF6363"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-            app:layout_constraintHorizontal_bias="0.222"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/rememberBtn"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/incorrect_notification" />
+
+        <RadioButton
+            android:id="@+id/rememberBtn"
+            android:layout_width="136dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:alpha="0.7"
+            android:focusable="true"
+            android:text="Remember Me?"
+            app:layout_constraintStart_toStartOf="@+id/incorrect_notification"
+            app:layout_constraintTop_toBottomOf="@+id/incorrect_notification" />
 
         <Button
             android:id="@+id/signinBtn"
@@ -170,7 +172,7 @@
             android:backgroundTint="#2853AF"
             android:text="Sign In"
             app:cornerRadius="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/forgotPassword"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/rememberBtn"
             app:layout_constraintTop_toBottomOf="@+id/rememberBtn" />
@@ -198,7 +200,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/signupBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -296,6 +298,27 @@
             app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
             app:srcCompat="@drawable/facebook_logo" />
+
+        <TextView
+            android:id="@+id/incorrect_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:drawableStart="@drawable/exclamation_mark"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/inter"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            android:text="Incorrect email address or password"
+            android:textAlignment="textStart"
+            android:textColor="#FF0000"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidProject">
         <activity
+            android:name=".enterOTP"
+            android:exported="false" />
+        <activity
             android:name=".signup"
             android:exported="false" />
         <activity
