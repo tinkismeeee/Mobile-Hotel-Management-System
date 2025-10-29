@@ -34,6 +34,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity5::class.java)
             startActivity(intent)
         }
+        val btnhelpAndSp = findViewById<LinearLayout>(R.id.btnhelpAndSp)
+        btnhelpAndSp.setOnClickListener {
+            val intent = Intent(this, MainActivity6::class.java)
+            startActivity(intent)
+        }
 
     }
 }
