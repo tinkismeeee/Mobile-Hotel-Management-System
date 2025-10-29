@@ -22,18 +22,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <io.alterac.blurkit.BlurLayout
-            android:id="@+id/blurLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            app:blk_blurRadius="12"
-            app:blk_downscaleFactor="0.7"
-            app:blk_fps="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <io.alterac.blurkit.BlurLayout-->
+<!--            android:id="@+id/blurLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="invisible"-->
+<!--            app:blk_blurRadius="12"-->
+<!--            app:blk_downscaleFactor="0.7"-->
+<!--            app:blk_fps="0"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -41,9 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/continue_button"
-            app:layout_constraintStart_toStartOf="@+id/continue_button"
-            app:layout_constraintTop_toBottomOf="@+id/continue_button">
+            app:layout_constraintEnd_toEndOf="@+id/nextBtn"
+            app:layout_constraintStart_toStartOf="@+id/nextBtn"
+            app:layout_constraintTop_toBottomOf="@+id/nextBtn">
 
             <TextView
                 android:id="@+id/textView5"
@@ -72,7 +72,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/continue_button"
+            android:id="@+id/nextBtn"
             android:layout_width="349dp"
             android:layout_height="60dp"
             android:layout_marginTop="40dp"
@@ -164,8 +164,8 @@
                 android:background="@drawable/rounded_background_otp"
                 android:ems="10"
                 android:fontFamily="@font/inter_bold"
+                android:hint="1"
                 android:inputType="number"
-                android:text="1"
                 android:textAlignment="center" />
 
             <EditText
@@ -176,8 +176,8 @@
                 android:background="@drawable/rounded_background_otp"
                 android:ems="10"
                 android:fontFamily="@font/inter_bold"
+                android:hint="2"
                 android:inputType="number"
-                android:text="2"
                 android:textAlignment="center" />
 
             <EditText
@@ -188,8 +188,8 @@
                 android:background="@drawable/rounded_background_otp"
                 android:ems="10"
                 android:fontFamily="@font/inter_bold"
+                android:hint="3"
                 android:inputType="number"
-                android:text="3"
                 android:textAlignment="center" />
 
             <EditText
@@ -200,8 +200,8 @@
                 android:background="@drawable/rounded_background_otp"
                 android:ems="10"
                 android:fontFamily="@font/inter_bold"
+                android:hint="4"
                 android:inputType="number"
-                android:text="4"
                 android:textAlignment="center" />
         </LinearLayout>
 

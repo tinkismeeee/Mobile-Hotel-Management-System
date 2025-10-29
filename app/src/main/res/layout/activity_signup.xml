@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/continue_button">
+            app:layout_constraintTop_toBottomOf="@+id/nextBtn">
 
             <TextView
                 android:id="@+id/textView8"
@@ -109,7 +109,7 @@
             app:srcCompat="@drawable/facebook_logo" />
 
         <Button
-            android:id="@+id/continue_button"
+            android:id="@+id/nextBtn"
             android:layout_width="349dp"
             android:layout_height="60dp"
             android:layout_marginTop="25dp"

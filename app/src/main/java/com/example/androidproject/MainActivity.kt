@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val signupBtn : TextView = findViewById<TextView>(R.id.signupBtn)
         val incorrect_notification : TextView = findViewById<TextView>(R.id.incorrect_notification)
         val rememberBtn : RadioButton = findViewById<RadioButton>(R.id.rememberBtn)
+        val password_visibility = findViewById<ImageView>(R.id.password_visibility)
 
         email_input.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -88,6 +90,15 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, signup::class.java)
             Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
             startActivity(intent)
+        }
+
+        password_visibility.setOnClickListener {
+            if (password_input.transformationMethod == null) {
+                password_input.transformationMethod = AsteriskPasswordTransformationMethod()
+            }
+            else {
+                password_input.transformationMethod = null
+            }
         }
     }
 
