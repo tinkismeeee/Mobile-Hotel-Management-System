@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         val logoutTextView = findViewById<TextView>(R.id.tvLogout)
         logoutTextView.setOnClickListener {
-            // Khi bấm Logout → chuyển sang MainSecondActivity2
+
             val intent = Intent(this, MainActivity2::class.java)
             startActivity(intent)
         }
