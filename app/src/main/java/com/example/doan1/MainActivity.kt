@@ -28,5 +28,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity4::class.java)
             startActivity(intent)
         }
+
+        val btnNotifications = findViewById<LinearLayout>(R.id.btnNotifications)
+        btnNotifications.setOnClickListener {
+            val intent = Intent(this, MainActivity5::class.java)
+            startActivity(intent)
+        }
+
     }
 }
