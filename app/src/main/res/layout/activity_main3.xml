@@ -21,12 +21,10 @@
 
             <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="14dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="Back"
-
-                android:src="@drawable/ic_arrow_back" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Back" />
 
             <TextView
                 android:layout_width="0dp"

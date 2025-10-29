@@ -44,6 +44,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,  MainActivity7::class.java)
             startActivity(intent)
         }
+        val btnyourcard = findViewById<LinearLayout>(R.id.btnYourcard)
+        btnyourcard.setOnClickListener {
+            val intent = Intent(this,  MainActivity8::class.java)
+            startActivity(intent)
+        }
 
     }
 }

@@ -100,6 +100,7 @@
 
 
         <LinearLayout
+            android:id="@+id/btnYourcard"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:orientation="horizontal"
@@ -108,6 +109,7 @@
             android:paddingEnd="18dp">
 
             <ImageView
+
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/ic_card"
