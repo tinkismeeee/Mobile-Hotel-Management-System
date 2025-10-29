@@ -23,20 +23,25 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity3::class.java)
             startActivity(intent)
         }
-        val btnLanguages = findViewById<LinearLayout>(R.id.btnLanguages)
-        btnLanguages.setOnClickListener {
+        val btnlanguages = findViewById<LinearLayout>(R.id.btnLanguages)
+        btnlanguages.setOnClickListener {
             val intent = Intent(this, MainActivity4::class.java)
             startActivity(intent)
         }
 
-        val btnNotifications = findViewById<LinearLayout>(R.id.btnNotifications)
-        btnNotifications.setOnClickListener {
+        val btnnotifications = findViewById<LinearLayout>(R.id.btnNotifications)
+        btnnotifications.setOnClickListener {
             val intent = Intent(this, MainActivity5::class.java)
             startActivity(intent)
         }
         val btnhelpAndSp = findViewById<LinearLayout>(R.id.btnhelpAndSp)
         btnhelpAndSp.setOnClickListener {
             val intent = Intent(this, MainActivity6::class.java)
+            startActivity(intent)
+        }
+        val btnsecurity = findViewById<LinearLayout>(R.id.btnSecurity)
+        btnsecurity.setOnClickListener {
+            val intent = Intent(this,  MainActivity7::class.java)
             startActivity(intent)
         }
 
