@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Layout: profile_layout.xml -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +9,7 @@
     android:paddingTop="50dp"
     tools:context=".MainActivity">
 
-    <!-- Top title -->
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="18dp" />
 
-    <!-- User row: avatar + name + edit -->
+
     <ImageView
         android:id="@+id/imgAvatar"
         android:layout_width="64dp"
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="18dp" />
 
-    <!-- Settings label -->
+
     <TextView
         android:id="@+id/tvSettingLabel"
         android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp" />
 
-    <!-- Settings list container -->
+
     <LinearLayout
         android:id="@+id/llSettings"
         android:layout_width="0dp"
@@ -98,7 +98,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp">
 
-        <!-- Item template -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
@@ -130,7 +130,7 @@
             android:layout_height="1dp"
             android:background="#E9ECEF" />
 
-        <!-- Security -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
@@ -162,7 +162,7 @@
             android:layout_height="1dp"
             android:background="#E9ECEF" />
 
-        <!-- Notification -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
@@ -194,8 +194,9 @@
             android:layout_height="1dp"
             android:background="#E9ECEF" />
 
-        <!-- Languages -->
+
         <LinearLayout
+            android:id="@+id/btnLanguages"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:orientation="horizontal"
@@ -226,7 +227,7 @@
             android:layout_height="1dp"
             android:background="#E9ECEF" />
 
-        <!-- Help and Support -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
@@ -258,7 +259,7 @@
             android:layout_height="1dp"
             android:background="#E9ECEF" />
 
-        <!-- Logout -->
+
         <TextView
             android:id="@+id/tvLogout"
             android:layout_width="match_parent"
@@ -272,7 +273,7 @@
 
     </LinearLayout>
 
-    <!-- Bottom navigation mimic -->
+
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="0dp"

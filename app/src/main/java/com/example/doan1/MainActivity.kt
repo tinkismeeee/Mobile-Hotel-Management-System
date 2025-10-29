@@ -2,6 +2,7 @@ package com.example.doan1
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         val btnEdit = findViewById<ImageButton>(R.id.btnEdit)
         btnEdit.setOnClickListener {
             val intent = Intent(this, MainActivity3::class.java)
+            startActivity(intent)
+        }
+        val btnLanguages = findViewById<LinearLayout>(R.id.btnLanguages)
+        btnLanguages.setOnClickListener {
+            val intent = Intent(this, MainActivity4::class.java)
             startActivity(intent)
         }
     }

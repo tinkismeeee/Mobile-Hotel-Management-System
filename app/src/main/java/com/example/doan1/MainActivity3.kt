@@ -12,10 +12,10 @@ class MainActivity3 : AppCompatActivity() {
 
         val btnBack = findViewById<ImageView>(R.id.btnBack)
         btnBack.setOnClickListener {
-            // Quay về màn hình 1
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish() // đóng màn hình 3 để không chồng stack
+            finish()
         }
     }
 }

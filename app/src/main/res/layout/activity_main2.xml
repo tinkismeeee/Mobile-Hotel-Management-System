@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <!-- Hộp nội dung chính của dialog -->
+
     <LinearLayout
         android:id="@+id/dialogContainer"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Icon -->
+
         <ImageView
             android:id="@+id/iconQuestion"
             android:layout_width="90dp"
@@ -28,7 +28,7 @@
             android:contentDescription="Question icon"
             android:src="@drawable/ic_question_red" />
 
-        <!-- Title -->
+
         <TextView
             android:id="@+id/tvDialogTitle"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Message -->
+
         <TextView
             android:id="@+id/tvDialogMessage"
             android:layout_width="wrap_content"
@@ -49,14 +49,14 @@
             android:textColor="#9AA0A6"
             android:textSize="14sp" />
 
-        <!-- Buttons -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <!-- Log Out -->
+
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="0dp"
@@ -68,7 +68,7 @@
                 android:textColor="#FF004D"
                 android:textStyle="bold" />
 
-            <!-- Cancel -->
+
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="0dp"

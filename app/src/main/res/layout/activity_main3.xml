@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp"
-        android:layout_marginTop="40dp">  <!-- 👈 đẩy toàn bộ layout xuống thấp -->
+        android:layout_marginTop="40dp">
 
-        <!-- ===== Header ===== -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:tint="#000000"/>
         </LinearLayout>
 
-        <!-- ===== First Name ===== -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:textSize="15sp"
             android:layout_marginTop="6dp"/>
 
-        <!-- ===== Last Name ===== -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
             android:textSize="15sp"
             android:layout_marginTop="6dp"/>
 
-        <!-- ===== Email ===== -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             android:textSize="15sp"
             android:layout_marginTop="6dp"/>
 
-        <!-- ===== Phone ===== -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             android:textSize="15sp"
             android:layout_marginTop="6dp"/>
 
-        <!-- ===== Save Button ===== -->
+
         <Button
             android:id="@+id/btnSaveChanges"
             android:layout_width="match_parent"
