@@ -16,8 +16,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +33,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         // Write a message to the database
-        val database = Firebase.database
-        val myRef = database.getReference("message")
-        myRef.setValue("Hello, World!")
-
+//        val database = Firebase.database
+//        val myRef = database.getReference("message2")
+//        myRef.setValue("Hello, World!")
+        checkUserSession()
         val email_input : EditText = findViewById<EditText>(R.id.email_input)
         val password_input : EditText = findViewById<EditText>(R.id.password_input)
         val signinBtn : Button = findViewById<Button>(R.id.signinBtn)
@@ -84,9 +87,24 @@ class MainActivity : AppCompatActivity() {
             val password_inputStr : String? = password_input.text.toString()
 
             if (email_inputStr == "admin" && password_inputStr == "admin") {
-                val intent = Intent(this, enterOTP::class.java)
+                val masterKey = MasterKey.Builder(this).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+                val session = EncryptedSharedPreferences.create(
+                    this,
+                    getString(R.string.session_file_name),
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                )
+                val mySession = session.edit()
+                mySession.putString("email", email_inputStr)
+                mySession.putString("password", password_inputStr)
+                mySession.putBoolean("isLoggedIn", true)
+                mySession.apply()
+
+                val intent = Intent(this, Home::class.java)
                 Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
                 startActivity(intent)
+                finish()
             }
             else if (email_inputStr != "admin" || password_inputStr != "admin") {
                 incorrect_notification.visibility = View.VISIBLE
@@ -94,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         signupBtn.setOnClickListener {
-            val intent = Intent(this, signup::class.java)
+            val intent : Intent = Intent(this, signup::class.java)
             Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
             startActivity(intent)
         }
@@ -109,10 +127,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun Reset_all (email_input: EditText, password_input: EditText, incorrect_notification: TextView, rememberBtn: RadioButton) {
+    private fun Reset_all (email_input: EditText, password_input: EditText, incorrect_notification: TextView, rememberBtn: RadioButton) {
         email_input.text.clear()
         password_input.text.clear()
         incorrect_notification.visibility = View.GONE
         rememberBtn.isChecked = false
+    }
+
+    private fun checkUserSession() {
+        // Login Session
+        val masterKey = MasterKey.Builder(this)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+        val session = EncryptedSharedPreferences.create(
+            this,
+            getString(R.string.session_file_name),
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+        val isLoggedIn = session.getBoolean("isLoggedIn", false)
+        if (isLoggedIn == true) {
+            Log.i("Login Session", "User is logged in")
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+            finish()
+        }
+        else {
+            Log.e("Login Session", "User is not logged in")
+        }
     }
 }

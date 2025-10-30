@@ -53,4 +53,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database:22.0.1")
+    implementation("androidx.security:security-crypto:1.1.0")
 }

@@ -49,7 +49,7 @@ class signup : AppCompatActivity() {
         val email_input : EditText = findViewById<EditText>(R.id.email_input)
         val password_input : EditText = findViewById<EditText>(R.id.password_input)
         val password_visibility: ImageView = findViewById<ImageView>(R.id.password_visibility)
-        val createAccountBtn: Button = findViewById<Button>(R.id.createAccountBtn)
+        val createAccountBtn: Button = findViewById<Button>(R.id.continueBtn)
 
 
         //AsteriskPasswordTransformationMethod
