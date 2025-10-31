@@ -23,6 +23,9 @@ import com.google.firebase.database.database
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var email_input: EditText
+    private lateinit var password_input: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,14 +39,37 @@ class MainActivity : AppCompatActivity() {
 //        val database = Firebase.database
 //        val myRef = database.getReference("message2")
 //        myRef.setValue("Hello, World!")
-        checkUserSession()
-        val email_input : EditText = findViewById<EditText>(R.id.email_input)
-        val password_input : EditText = findViewById<EditText>(R.id.password_input)
+        email_input = findViewById<EditText>(R.id.email_input)
+        password_input = findViewById<EditText>(R.id.password_input)
         val signinBtn : Button = findViewById<Button>(R.id.signinBtn)
         val signupBtn : TextView = findViewById<TextView>(R.id.signupBtn)
         val incorrect_notification : TextView = findViewById<TextView>(R.id.incorrect_notification)
         val rememberBtn : RadioButton = findViewById<RadioButton>(R.id.rememberBtn)
         val password_visibility = findViewById<ImageView>(R.id.password_visibility)
+
+        checkRemember()
+        checkUserSession()
+
+        val getResult = registerForActivityResult(
+            androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_CANCELED) {
+                val masterKey = MasterKey.Builder(this)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+                val session = EncryptedSharedPreferences.create(
+                    this,
+                    getString(R.string.session_file_name),
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+                val isRemember = session.getBoolean("isRemember", false)
+                if (isRemember) {
+                    email_input.setText(session.getString("email", ""))
+                }
+                else {
+                    Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
+                }
+            }
+        }
 
         email_input.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -99,12 +125,14 @@ class MainActivity : AppCompatActivity() {
                 mySession.putString("email", email_inputStr)
                 mySession.putString("password", password_inputStr)
                 mySession.putBoolean("isLoggedIn", true)
+                mySession.putBoolean("isRemember", rememberBtn.isChecked)
+//                Log.i("remember", "checked")
                 mySession.apply()
 
-                val intent = Intent(this, Home::class.java)
+                val intent = Intent(this, enterOTP::class.java)
                 Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
-                startActivity(intent)
-                finish()
+                getResult.launch(intent)
+
             }
             else if (email_inputStr != "admin" || password_inputStr != "admin") {
                 incorrect_notification.visibility = View.VISIBLE
@@ -153,6 +181,21 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             Log.e("Login Session", "User is not logged in")
+        }
+    }
+    private fun checkRemember() {
+        val masterKey = MasterKey.Builder(this)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+        val session = EncryptedSharedPreferences.create(
+            this,
+            getString(R.string.session_file_name),
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+        val isChecked = session.getBoolean("isRemember", false)
+        if (isChecked == true) {
+            email_input.setText(session.getString("email", ""))
+            password_input.text.clear()
         }
     }
 }

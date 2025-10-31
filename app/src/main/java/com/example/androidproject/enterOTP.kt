@@ -55,18 +55,18 @@ class enterOTP : AppCompatActivity() {
         }
 
         backBtn.setOnClickListener {
+
             finish()
         }
 
         agreeBtn.setOnClickListener {
-            val session = getSharedPreferences("session", MODE_PRIVATE)
-            val mySession = session.edit()
-
         }
 
         disagreeBtn.setOnClickListener {
             Toast.makeText(this, "You have declined the terms and conditions", Toast.LENGTH_SHORT).show();
-
+            val resultIntent : Intent = Intent()
+            setResult(RESULT_CANCELED, resultIntent)
+            finish()
         }
     }
 
