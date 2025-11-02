@@ -143,6 +143,7 @@
                 android:id="@+id/email_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
                 android:text="email_holder"
                 android:textAlignment="center" />
 

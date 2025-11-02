@@ -1,6 +1,7 @@
 package com.example.androidproject
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,6 +19,15 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val name_holder = findViewById<TextView>(R.id.name_holder)
+        val address_holder = findViewById<TextView>(R.id.address_holder)
+
+        name_holder.setText("Nguyễn Hữu Tính")
+        address_holder.setText("Tam thanh phú quý bình thuận việt nam")
+
+
+
 
     }
 }

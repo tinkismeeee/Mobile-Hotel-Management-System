@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
 import java.io.File
 
@@ -35,10 +36,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // Write a message to the database
-//        val database = Firebase.database
-//        val myRef = database.getReference("message2")
-//        myRef.setValue("Hello, World!")
         email_input = findViewById<EditText>(R.id.email_input)
         password_input = findViewById<EditText>(R.id.password_input)
         val signinBtn : Button = findViewById<Button>(R.id.signinBtn)
@@ -46,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         val incorrect_notification : TextView = findViewById<TextView>(R.id.incorrect_notification)
         val rememberBtn : RadioButton = findViewById<RadioButton>(R.id.rememberBtn)
         val password_visibility = findViewById<ImageView>(R.id.password_visibility)
+        val mAuth = FirebaseAuth.getInstance()
 
         checkRemember()
         checkUserSession()
@@ -112,31 +110,42 @@ class MainActivity : AppCompatActivity() {
             val email_inputStr : String? = email_input.text.toString()
             val password_inputStr : String? = password_input.text.toString()
 
-            if (email_inputStr == "admin" && password_inputStr == "admin") {
-                val masterKey = MasterKey.Builder(this).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
-                val session = EncryptedSharedPreferences.create(
-                    this,
-                    getString(R.string.session_file_name),
-                    masterKey,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                )
-                val mySession = session.edit()
-                mySession.putString("email", email_inputStr)
-                mySession.putString("password", password_inputStr)
-                mySession.putBoolean("isLoggedIn", true)
-                mySession.putBoolean("isRemember", rememberBtn.isChecked)
-//                Log.i("remember", "checked")
-                mySession.apply()
-
-                val intent = Intent(this, enterOTP::class.java)
-                Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
-                getResult.launch(intent)
-
-            }
-            else if (email_inputStr != "admin" || password_inputStr != "admin") {
+            if (email_inputStr.isNullOrEmpty() || password_inputStr.isNullOrEmpty()) {
                 incorrect_notification.visibility = View.VISIBLE
+                email_input.text.clear()
+                password_input.text.clear()
             }
+            else if (email_inputStr != null && password_inputStr != null) {
+//                Log.i("FirebaseAuthCheck", email_inputStr.toString())
+                mAuth.signInWithEmailAndPassword(email_inputStr.toString(), password_inputStr.toString()).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val masterKey = MasterKey.Builder(this).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+                        val session = EncryptedSharedPreferences.create(
+                            this,
+                            getString(R.string.session_file_name),
+                            masterKey,
+                            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                        )
+                        val mySession = session.edit()
+                        mySession.putString("email", email_inputStr)
+                        mySession.putString("password", password_inputStr)
+                        mySession.putBoolean("isLoggedIn", true)
+                        mySession.putBoolean("isRemember", rememberBtn.isChecked)
+                        //                Log.i("remember", "checked")
+                        mySession.apply()
+
+                        val intent = Intent(this, enterOTP::class.java)
+                        Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
+                        getResult.launch(intent)
+                    }
+                    else {
+                        incorrect_notification.visibility = View.VISIBLE
+                        Log.i("FirebaseAuthCheck", task.exception.toString())
+                    }
+                }
+            }
+
         }
 
         signupBtn.setOnClickListener {

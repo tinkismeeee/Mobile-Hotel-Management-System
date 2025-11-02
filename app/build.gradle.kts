@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.androidx.gridlayout)
     implementation(libs.firebase.database)
     implementation(libs.androidx.cardview)
+    implementation(libs.androidx.legacy.support.v4)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,4 +57,5 @@ dependencies {
     implementation("com.google.firebase:firebase-database:22.0.1")
     implementation("androidx.security:security-crypto:1.1.0")
     implementation("com.google.android.material:material:1.13.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }
