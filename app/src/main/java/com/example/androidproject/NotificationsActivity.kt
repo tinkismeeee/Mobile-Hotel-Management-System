@@ -26,8 +26,11 @@ class NotificationsActivity : AppCompatActivity() {
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_filter -> {
-                    Toast.makeText(this, "Mở bộ lọc...", Toast.LENGTH_SHORT).show()
-                    // TODO: Hiển thị BottomSheet (màn hình cuối)
+                    // SỬA Ở ĐÂY:
+                    // Toast.makeText(this, "Mở bộ lọc...", Toast.LENGTH_SHORT).show()
+                    // THAY BẰNG:
+                    val filterBottomSheet = FilterBottomSheetFragment()
+                    filterBottomSheet.show(supportFragmentManager, FilterBottomSheetFragment.TAG)
                     true
                 }
                 else -> false
