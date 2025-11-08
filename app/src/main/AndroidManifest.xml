@@ -46,7 +46,9 @@
             android:name=".VoiceCallActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- Theme không có thanh tiêu đề -->
-
+        <activity
+            android:name=".MyFavoriteActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
