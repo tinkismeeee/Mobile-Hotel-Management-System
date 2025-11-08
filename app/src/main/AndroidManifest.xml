@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.androidproject">
+
+    <!-- Thêm quyền truy cập Internet (ví dụ: để tải ảnh) -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,19 +14,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AndroidProject">
-        <activity
-            android:name=".BookingDetail"
-            android:exported="false" />
+        android:theme="@style/Theme.AndroidProject"
+        tools:targetApi="31">
+
+        <!-- Giả sử MainActivity là Activity khởi chạy -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Khai báo các Activity đã tạo -->
+        <activity
+            android:name=".BookingDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MessagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" /> <!-- Giúp layout không bị che khi bàn phím hiện -->
+        <activity
+            android:name=".VideoCallActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- Theme không có thanh tiêu đề -->
+        <activity
+            android:name=".VoiceCallActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- Theme không có thanh tiêu đề -->
+
     </application>
 
 </manifest>
