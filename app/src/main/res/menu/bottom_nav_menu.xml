@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:icon="@drawable/house_regular_full"
+        android:id="@+id/homeBtn"
+        />
+    <item android:title="My Booking"
+        android:icon="@drawable/note_sticky_regular"
+        android:id="@+id/bookingBtn"
+        />
+    <item
+        android:id="@+id/messageBtn"
+        android:title="Messages"
+        android:icon="@drawable/message_regular"
+        />
+    <item android:title="Profile"
+        android:icon="@drawable/user_regular"
+        android:id="@+id/profileBtn"
+        />
+</menu>
