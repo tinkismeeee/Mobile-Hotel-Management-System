@@ -19,6 +19,7 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
@@ -109,19 +110,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:id="@+id/frame_layout"
-            android:layout_width="match_parent"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="com.example.androidproject.home_fragment"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="1dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_layout">
-
-        </FrameLayout>
+            app:layout_constraintTop_toBottomOf="@+id/profile_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
