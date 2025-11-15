@@ -10,14 +10,14 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 
 // === CÁC IMPORT CẦN THÊM ===
+import android.content.Intent
+import android.view.View
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.core.util.Pair
-
-// === DÒNG SỬA LỖI: THÊM IMPORT NÀY ===
-import android.view.View
-// ===================================
+// ==========================
 
 class RoomDetailActivity : AppCompatActivity() {
 
@@ -27,6 +27,7 @@ class RoomDetailActivity : AppCompatActivity() {
     private lateinit var etCheckIn: TextInputEditText
     private lateinit var etCheckOut: TextInputEditText
     private lateinit var btnBack: ImageButton
+    private lateinit var btnBookNow: MaterialButton // <-- THÊM NÚT BOOK NOW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ class RoomDetailActivity : AppCompatActivity() {
         etCheckIn = findViewById(R.id.etCheckIn)
         etCheckOut = findViewById(R.id.etCheckOut)
         btnBack = findViewById(R.id.btnBack)
+        btnBookNow = findViewById(R.id.btnBookNow) // <-- ÁNH XẠ NÚT BOOK NOW
 
         // Lấy dữ liệu được gửi từ Adapter
         val hotelName = intent.getStringExtra("HOTEL_NAME")
@@ -65,55 +67,55 @@ class RoomDetailActivity : AppCompatActivity() {
             finish() // Đóng Activity này và quay lại màn hình trước
         }
 
-        // === THAY ĐỔI LOGIC DATE PICKER ===
-
-        // Tạo một bộ lắng nghe chung
-        // Dòng này (View.OnClickListener) sẽ hết báo lỗi
+        // Gắn sự kiện cho Date Picker
         val dateRangePickerClickListener = View.OnClickListener {
             showDateRangePicker()
         }
-
-        // 1. Khi nhấn vào ô Check-in -> Mở chung 1 bảng
         etCheckIn.setOnClickListener(dateRangePickerClickListener)
-
-        // 2. Khi nhấn vào ô Check-out -> Cũng mở chung 1 bảng
         etCheckOut.setOnClickListener(dateRangePickerClickListener)
 
-        // ======================================
+        // === LOGIC MỚI CHO NÚT "BOOK NOW" ===
+        btnBookNow.setOnClickListener {
+            // Tạo Intent (ý định) để mở CheckoutActivity
+            val intent = Intent(this, CheckoutActivity::class.java)
+
+            // "Gói" dữ liệu để gửi sang màn hình Checkout
+            // Lấy từ các TextView/EditText đã được điền
+            intent.putExtra("HOTEL_NAME", tvHotelName.text.toString())
+            intent.putExtra("HOTEL_LOCATION", tvLocation.text.toString())
+            intent.putExtra("CHECK_IN_DATE", etCheckIn.text.toString())
+            intent.putExtra("CHECK_OUT_DATE", etCheckOut.text.toString())
+            // (Bạn có thể gửi thêm giá, số lượng khách, v.v...)
+
+            // Bắt đầu Activity mới
+            startActivity(intent)
+        }
+        // ===================================
     }
 
     /**
      * Hàm này hiển thị một bảng chọn KHOẢNG NGÀY (DateRangePicker)
      */
     private fun showDateRangePicker() {
-        // 1. Tạo bảng chọn KHOẢNG NGÀY
+        // (Code của hàm này giữ nguyên như bước trước)
         val builder = MaterialDatePicker.Builder.dateRangePicker()
             .setTitleText("Select Dates")
-            // Áp dụng Style (Theme) mới
             .setTheme(R.style.ThemeOverlay_App_MaterialCalendar)
 
         val datePicker = builder.build()
 
-        // 2. Khi người dùng nhấn "OK"
         datePicker.addOnPositiveButtonClickListener { selection ->
-            // 'selection' bây giờ là một Pair<Long, Long> (Ngày bắt đầu, Ngày kết thúc)
-
-            // Lấy ngày bắt đầu
             val startDateMillis = selection.first
-            // Lấy ngày kết thúc
             val endDateMillis = selection.second
 
-            // Định dạng lại ngày tháng (từ Long -> String "dd-MM-yyyy")
             val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             val startDateString = sdf.format(startDateMillis)
             val endDateString = sdf.format(endDateMillis)
 
-            // Gán ngày đã định dạng vào CẢ HAI ô EditText
             etCheckIn.setText(startDateString)
             etCheckOut.setText(endDateString)
         }
 
-        // 3. Hiển thị bảng chọn ngày
         datePicker.show(supportFragmentManager, "DATE_RANGE_PICKER_TAG")
     }
 }

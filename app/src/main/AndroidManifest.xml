@@ -14,7 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidProject">
         <activity
+
             android:name=".RoomDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BookingSuccessfulActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EReceiptActivity"
             android:exported="false" />
         <activity
             android:name=".Home"
