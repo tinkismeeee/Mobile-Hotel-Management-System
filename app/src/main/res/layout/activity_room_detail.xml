@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RoomDetailActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"> <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <ImageView
+            android:id="@+id/ivDetailImage"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDetailHotelName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="The Aston Vill Hotel"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivDetailImage" />
+
+        <TextView
+            android:id="@+id/tvDetailRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/ic_star_yellow"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/inter"
+            android:gravity="center"
+            android:text="4.7"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/tvDetailHotelName" />
+
+        <TextView
+            android:id="@+id/tvDetailLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/inter"
+            android:text="Veum Point, Michikoton"
+            android:textColor="#808080"
+            app:layout_constraintBottom_toBottomOf="@id/tvDetailRating"
+            app:layout_constraintStart_toEndOf="@id/tvDetailRating"
+            app:layout_constraintTop_toTopOf="@id/tvDetailRating" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="#F0F0F0"
+            app:layout_constraintEnd_toEndOf="@id/tvDetailHotelName"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/tvDetailRating" />
+
+        <TextView
+            android:id="@+id/tvFacilitiesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Facilities"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <GridLayout
+            android:id="@+id/facilitiesGrid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:columnCount="2"
+            app:layout_constraintEnd_toEndOf="@id/tvDetailHotelName"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/tvFacilitiesTitle">
+
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center_vertical" android:padding="8dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/user_regular"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4 Guests" android:fontFamily="@font/inter" android:layout_marginStart="8dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center_vertical" android:padding="8dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/hotel_icon"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 Beds" android:fontFamily="@font/inter" android:layout_marginStart="8dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center_vertical" android:padding="8dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/villa_icon"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 Bathrooms" android:fontFamily="@font/inter" android:layout_marginStart="8dp"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center_vertical" android:padding="8dp">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/bell_regular"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Wi-Fi" android:fontFamily="@font/inter" android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/tvDescTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Description"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/facilitiesGrid" />
+
+        <TextView
+            android:id="@+id/tvDetailDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+            android:lineSpacingExtra="4dp"
+            app:layout_constraintEnd_toEndOf="@id/tvDetailHotelName"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/tvDescTitle" />
+
+        <LinearLayout
+            android:id="@+id/dateLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tvDetailHotelName"
+            app:layout_constraintStart_toStartOf="@id/tvDetailHotelName"
+            app:layout_constraintTop_toBottomOf="@id/tvDetailDesc">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCheckIn"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:hint="Check-in">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCheckIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCheckOut"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:hint="Check-out">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCheckOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/arrow_left"
+        android:background="@drawable/circle_background_white"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnHeart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/circle_background_white"
+        android:src="@drawable/ic_heart"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvPriceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$120"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/inter_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNightLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/night"
+                android:fontFamily="@font/inter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPriceLabel" />
+
+            <Button
+                android:id="@+id/btnBookNow"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:text="Book Now"
+                android:fontFamily="@font/inter_bold"
+                android:background="@drawable/button_rounded_blue"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvPriceLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
