@@ -38,6 +38,9 @@ class Home : AppCompatActivity() {
             when(it.itemId){
                 R.id.homeBtn -> replaceFragment(home_fragment())
             }
+            when(it.itemId){
+                R.id.profileBtn -> replaceFragment(main_profile())
+            }
             true
         }
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Màu đen bán trong suốt (50% alpha) -->
+    <solid android:color="#80000000" />
+
+    <!-- Chỉ bo 2 góc dưới -->
+    <corners
+        android:bottomLeftRadius="12dp"
+        android:bottomRightRadius="12dp" />
+</shape>

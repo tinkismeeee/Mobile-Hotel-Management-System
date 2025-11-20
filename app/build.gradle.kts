@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -60,4 +61,6 @@ dependencies {
     implementation("androidx.security:security-crypto:1.1.0")
     implementation("com.google.android.material:material:1.13.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
 }
