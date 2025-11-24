@@ -23,5 +23,20 @@ interface ApiService {
 
     @DELETE("api/staff/{id}")
     fun deleteStaff(@retrofit2.http.Path("id") id: Int): Call<Void>
+    @GET("api/customers")
+    fun getAllCustomers(): Call<List<User1>>
+
+    @GET("api/customers/{id}")
+    fun getCustomer(@retrofit2.http.Path("id") id: Int): Call<User1>
+
+    @POST("api/customers")
+    fun addCustomer(@Body customer: User1): Call<User1>
+
+    @PUT("api/customers/{id}")
+    fun updateCustomer(@retrofit2.http.Path("id") id: Int, @Body updatedCustomer: User1): Call<User1>
+
+    @DELETE("api/customers/{id}")
+    fun deleteCustomer(@retrofit2.http.Path("id") id: Int): Call<Void>
+
 }
 

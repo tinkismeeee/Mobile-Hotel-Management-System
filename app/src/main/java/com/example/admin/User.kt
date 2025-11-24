@@ -39,3 +39,20 @@ data class UpdateUserRequest(
     val phone_number: String?,
     val is_active: Boolean
 )
+
+
+data class User1(
+    val user_id: Int,
+    val username: String,
+    val email: String,
+    val first_name: String,
+    val last_name: String,
+    val phone_number: String?,
+    val address: String?,
+    val date_of_birth: String?,
+    val is_active: Boolean
+) {
+    val fullName: String
+        get() = "$first_name $last_name"
+}
+
