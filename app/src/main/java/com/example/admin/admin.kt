@@ -3,11 +3,13 @@ package com.example.admin
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+
 
 class admin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +32,10 @@ class admin : AppCompatActivity() {
             // Thêm code để mở màn hình Quản lý nhân viên tại đây
         }
 
+        btnManageEmployees.setOnClickListener {
+            val intent = Intent(this, NhanVienActivity::class.java)
+            startActivity(intent)
+        }
         btnManageCustomers.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Quản lý khách hàng", Toast.LENGTH_SHORT).show()
             // Thêm code để mở màn hình Quản lý khách hàng tại đây
@@ -50,7 +56,10 @@ class admin : AppCompatActivity() {
             Toast.makeText(this, "Đang thực hiện Logout...", Toast.LENGTH_SHORT).show()
             // Thêm code xử lý đăng xuất tại đây (ví dụ: chuyển về màn hình Login)
         }
-
+        btnLogout.setOnClickListener {
+            val intent = Intent(this, logout::class.java)
+            startActivity(intent)
+        }
         // Thiết lập OnClickListener cho mục Trang chủ (Bottom Navigation Bar)
         navHome.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Trang chủ", Toast.LENGTH_SHORT).show()
