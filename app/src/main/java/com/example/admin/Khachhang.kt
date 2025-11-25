@@ -40,6 +40,10 @@ class KhachHangActivity : AppCompatActivity() {
             val intent = Intent(this, admin::class.java)
             startActivity(intent)
         }
+        findViewById<ImageView>(R.id.btnAdd).setOnClickListener {
+            val intent = Intent(this, AddKhachHangActivity::class.java)
+            startActivityForResult(intent, 101) // thêm nhân viên xong reload
+        }
     }
 
     private fun fetchCustomers() {

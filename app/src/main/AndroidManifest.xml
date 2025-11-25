@@ -13,9 +13,11 @@
         android:theme="@style/Theme.Admin"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AddKhachHangActivity"
+            android:exported="false" />
+        <activity
             android:name=".KhachHangActivity"
             android:exported="false" />
-
         <activity
             android:name=".NhanVienActivity"
             android:exported="false" />

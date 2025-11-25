@@ -30,7 +30,7 @@ interface ApiService {
     fun getCustomer(@retrofit2.http.Path("id") id: Int): Call<User1>
 
     @POST("api/customers")
-    fun addCustomer(@Body customer: User1): Call<User1>
+    fun addCustomer(@Body customer: NewCustomer): Call<NewCustomer>
 
     @PUT("api/customers/{id}")
     fun updateCustomer(@retrofit2.http.Path("id") id: Int, @Body updatedCustomer: User1): Call<User1>

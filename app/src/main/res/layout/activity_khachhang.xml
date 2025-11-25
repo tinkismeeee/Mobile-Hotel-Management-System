@@ -27,7 +27,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nhân Viên"
+            android:text="Khách Hàng"
             android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="#223354"
