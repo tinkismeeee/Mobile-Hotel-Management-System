@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Admin"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditCustomerActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddKhachHangActivity"
             android:exported="false" />
         <activity

@@ -18,6 +18,10 @@ class KhachHangActivity : AppCompatActivity() {
     private lateinit var customerAdapter: CustormerAdapter
     private var customerList = mutableListOf<User1>() // Dùng data class User1
 
+    // Định nghĩa Request Codes giống NhanVienActivity
+    private val EDIT_CUSTOMER_REQUEST = 100
+    private val ADD_CUSTOMER_REQUEST = 101
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_khachhang)
@@ -25,24 +29,28 @@ class KhachHangActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Truyền context và danh sách vào adapter
-        customerAdapter = CustormerAdapter(
-            context = this,
-            userList = customerList,
-            onItemClick = null // Chỉ hiển thị, không cần click
-        )
+        // SỬA ĐỔI: Khởi tạo Adapter với onItemClick để mở Activity chỉnh sửa
+        customerAdapter = CustormerAdapter(customerList) { selectedCustomer ->
+            val intent = Intent(this, EditCustomerActivity::class.java)
+            // Giả định User1 có thuộc tính user_id
+            intent.putExtra("USER_ID", selectedCustomer.user_id)
+            startActivityForResult(intent, EDIT_CUSTOMER_REQUEST) // requestCode = 100
+        }
         recyclerView.adapter = customerAdapter
 
         fetchCustomers()
 
-        // Nút back (nếu có)
+        // Nút back
         findViewById<ImageView>(R.id.btnToggleLayout).setOnClickListener {
             val intent = Intent(this, admin::class.java)
             startActivity(intent)
+            finish() // Đóng Activity này sau khi chuyển hướng
         }
+
+        // Nút Thêm Khách hàng
         findViewById<ImageView>(R.id.btnAdd).setOnClickListener {
             val intent = Intent(this, AddKhachHangActivity::class.java)
-            startActivityForResult(intent, 101) // thêm nhân viên xong reload
+            startActivityForResult(intent, ADD_CUSTOMER_REQUEST) // requestCode = 101
         }
     }
 
@@ -50,13 +58,12 @@ class KhachHangActivity : AppCompatActivity() {
         RetrofitClient.instance.getAllCustomers().enqueue(object : Callback<List<User1>> {
             override fun onResponse(call: Call<List<User1>>, response: Response<List<User1>>) {
                 if (response.isSuccessful && response.body() != null) {
-                    customerList.clear()
-                    customerList.addAll(response.body()!!)
-                    customerAdapter.notifyDataSetChanged()
+                    // SỬA ĐỔI: Sử dụng updateData() nếu CustormerAdapter có hàm này
+                    customerAdapter.updateData(response.body()!!)
                 } else {
                     Toast.makeText(
                         this@KhachHangActivity,
-                        "Không lấy được dữ liệu",
+                        "Không lấy được dữ liệu khách hàng",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -71,5 +78,14 @@ class KhachHangActivity : AppCompatActivity() {
                 ).show()
             }
         })
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // Reload danh sách nếu thao tác chỉnh sửa/xóa (100) hoặc thêm mới (101) thành công
+        if ((requestCode == EDIT_CUSTOMER_REQUEST || requestCode == ADD_CUSTOMER_REQUEST) && resultCode == RESULT_OK) {
+            fetchCustomers()
+        }
     }
 }

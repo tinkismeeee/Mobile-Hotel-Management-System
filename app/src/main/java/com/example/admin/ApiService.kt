@@ -33,7 +33,7 @@ interface ApiService {
     fun addCustomer(@Body customer: NewCustomer): Call<NewCustomer>
 
     @PUT("api/customers/{id}")
-    fun updateCustomer(@retrofit2.http.Path("id") id: Int, @Body updatedCustomer: User1): Call<User1>
+    fun updateCustomer(@retrofit2.http.Path("id") id: Int, @Body updatedCustomer: UpdateCustomerRequest): Call<NewCustomer>
 
     @DELETE("api/customers/{id}")
     fun deleteCustomer(@retrofit2.http.Path("id") id: Int): Call<Void>
