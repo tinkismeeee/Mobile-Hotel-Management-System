@@ -86,8 +86,14 @@ class enterOTP : AppCompatActivity() {
                     otp_check = success
                     runOnUiThread {
                         if (otp_check) {
-                            Toast.makeText(this, "OTP verified successfully", Toast.LENGTH_SHORT).show()
+//                          Toast.makeText(this, "OTP verified successfully", Toast.LENGTH_SHORT).show()
                             Log.d("OTP", "OTP is correct")
+                            blurLayout.visibility = View.VISIBLE
+                            terms_layout.visibility = View.VISIBLE
+                            terms_layout.bringToFront()
+                            disable_all(first_number, second_number, third_number, fourth_number, continueBtn)
+                            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(first_number.windowToken, 0)
                         }
                         else {
                             Toast.makeText(this, "OTP is incorrect. Please try again", Toast.LENGTH_LONG).show()
@@ -111,7 +117,10 @@ class enterOTP : AppCompatActivity() {
         }
 
         agreeBtn.setOnClickListener {
-
+            Toast.makeText(this, "You have accepted the terms and conditions", Toast.LENGTH_SHORT).show();
+            val intent : Intent = Intent(this, Home::class.java)
+            startActivity(intent)
+            finish()
         }
 
         disagreeBtn.setOnClickListener {
@@ -140,7 +149,7 @@ class enterOTP : AppCompatActivity() {
             .add("email", email)
             .build()
         val request = Request.Builder()
-            .url("http://192.168.1.125:3000/send-otp")
+            .url("http://176.57.189.146:3001/send-otp")
             .post(requestBody)
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -162,7 +171,7 @@ class enterOTP : AppCompatActivity() {
             .add("otp", otp)
             .build()
         val request = Request.Builder()
-            .url("http://192.168.1.125:3000/verify-otp")
+            .url("http://176.57.189.146:3001/verify-otp")
             .post(formBody)
             .build()
         client.newCall(request).enqueue(object : Callback {

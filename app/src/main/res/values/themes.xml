@@ -10,4 +10,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="ThemeOverlay_App_MaterialCalendar"
+        parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/button_color</item> <!-- Màu của ngày được chọn và header -->
+        <item name="colorOnPrimary">@color/white</item> <!-- Màu chữ trên màu primary -->
+        <item name="colorSurface">@color/white</item> <!-- Màu nền của calendar -->
+    </style>
 </resources>
