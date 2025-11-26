@@ -4,25 +4,30 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.androidproject.utils.MockData // Import MockData
 import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
+
 private val LOCATION_PERMISSION_REQUEST = 1001
 
 class home_fragment : Fragment() {
     private lateinit var locationClient: FusedLocationProviderClient
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: home_list_all_recycleview_item_adapter
+
     private var allVillasAndHotelsList = mutableListOf<villas_and_hotels_list_item>()
+
+    // API Key Google
     private val GOOGLE_API_KEY = "AIzaSyBBa7totCeTLg3APty-NckqqQK8nnRhrJc"
 
     override fun onCreateView(
@@ -34,20 +39,35 @@ class home_fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        locationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        // Khởi tạo an toàn
+        try {
+            locationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        } catch (e: Exception) {
+            useMockData("Lỗi khởi tạo vị trí")
+            return
+        }
+
         recyclerView = view.findViewById(R.id.recyclerViewAll)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         adapter = home_list_all_recycleview_item_adapter(allVillasAndHotelsList)
         recyclerView.adapter = adapter
+
+        // Bắt đầu lấy dữ liệu
         getCurrentLocation()
+
         val locationBtn = view.findViewById<ImageView>(R.id.changeLocationBtn)
         locationBtn.setOnClickListener {
             getCurrentLocation()
-            Toast.makeText(requireContext(), "Location changed", Toast.LENGTH_SHORT).show()
+            context?.let { Toast.makeText(it, "Đang làm mới...", Toast.LENGTH_SHORT).show() }
         }
     }
 
     private fun getCurrentLocation() {
+        // Kiểm tra xem Fragment còn sống không
+        if (!isAdded || context == null) return
+
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -57,64 +77,55 @@ class home_fragment : Fragment() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST
             )
-        }
+        } else {
+            locationClient.lastLocation.addOnSuccessListener { location ->
+                // [QUAN TRỌNG] Kiểm tra lại lần nữa sau khi async trả về
+                if (!isAdded) return@addOnSuccessListener
 
-        locationClient.lastLocation.addOnSuccessListener { location ->
-            if (!isAdded) {
-                return@addOnSuccessListener
+                if (location != null) {
+                    fetchNearbyHotels(location.latitude, location.longitude)
+                } else {
+                    requestNewLocationData()
+                }
+            }.addOnFailureListener {
+                if (isAdded) useMockData("Không lấy được vị trí")
             }
-            if (location != null) {
-                val lat = location.latitude
-                val lon = location.longitude
-                Log.d("Location", "Got last location - Latitude: $lat, Longitude: $lon")
-                fetchNearbyHotels(lat, lon)
-            } else {
-                Log.w("Location", "Last location is null. Requesting new location...")
-                requestNewLocationData()
-            }
-        }.addOnFailureListener { exception ->
-            if (!isAdded) {
-                return@addOnFailureListener
-            }
-            Log.e("Location", "Failed to get last location", exception)
-            Toast.makeText(requireContext(), "Failed to get location.", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun requestNewLocationData() {
+        // [SỬA LỖI CRASH] Kiểm tra context an toàn thay vì requireContext()
+        val ctx = context ?: return
+
         val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
             .setMaxUpdates(1)
             .build()
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
+        if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    if (!isAdded) return // Fragment chết rồi thì thôi
 
-        locationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-    }
-
-    private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            if (!isAdded) {
-                return
-            }
-            val lastLocation = locationResult.lastLocation
-            if (lastLocation != null) {
-                val lat = lastLocation.latitude
-                val lon = lastLocation.longitude
-                Log.d("Location", "Got new location - Latitude: $lat, Longitude: $lon")
-                fetchNearbyHotels(lat, lon)
-            } else {
-                Log.e("Location", "New location result is also null.")
-            }
+                    val lastLocation = locationResult.lastLocation
+                    if (lastLocation != null) {
+                        fetchNearbyHotels(lastLocation.latitude, lastLocation.longitude)
+                    } else {
+                        useMockData("Không tìm thấy vị trí mới")
+                    }
+                }
+            }, null)
+        } else {
+            useMockData("Thiếu quyền vị trí")
         }
     }
 
     private fun fetchNearbyHotels(latitude: Double, longitude: Double) {
         lifecycleScope.launch {
+            if (!isAdded) return@launch
+
             try {
                 val locationString = "$latitude,$longitude"
-                val response = RetrofitClient.api.getNearbyHotels(
+                val response = GoogleClient.api.getNearbyHotels(
                     location = locationString,
                     radius = 5000,
                     type = "lodging",
@@ -123,43 +134,57 @@ class home_fragment : Fragment() {
 
                 val mappedList = response.results.mapNotNull { place ->
                     if (place.name == null) return@mapNotNull null
-
                     villas_and_hotels_list_item(
                         hotelName = place.name,
-                        rating = place.rating ?: 0.0,
-                        location = place.vicinity ?: "No address",
-                        pricePerNight = 150,
-                        startDate = "15",
-                        endDate = "17 Dec 2024",
+                        rating = place.rating ?: 4.5,
+                        location = place.vicinity ?: "Vietnam",
+                        pricePerNight = (100..500).random() * 10000,
+                        startDate = "Today",
+                        endDate = "Tomorrow",
                         guests = 2,
                         rooms = 1,
                         status = "available",
                         photoReference = place.photos?.firstOrNull()?.photoReference
                     )
                 }
-                allVillasAndHotelsList.clear()
-                allVillasAndHotelsList.addAll(mappedList)
-                adapter.notifyDataSetChanged()
+
+                if (!isAdded) return@launch // Check lần cuối trước khi update UI
+
+                if (mappedList.isNotEmpty()) {
+                    allVillasAndHotelsList.clear()
+                    allVillasAndHotelsList.addAll(mappedList)
+                    adapter.notifyDataSetChanged()
+                } else {
+                    useMockData("Google API trả về rỗng")
+                }
 
             } catch (e: Exception) {
-                Log.e("API_ERROR", "Failed to fetch hotels", e)
+                if (isAdded) useMockData("Lỗi API Google: ${e.message}")
             }
         }
     }
 
+    // Hàm chuyển sang dữ liệu giả an toàn
+    private fun useMockData(reason: String) {
+        if (!isAdded) return
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == LOCATION_PERMISSION_REQUEST &&
-            grantResults.isNotEmpty() &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
+        context?.let {
+            // Toast.makeText(it, "Dùng dữ liệu mẫu ($reason)", Toast.LENGTH_SHORT).show()
+            // (Có thể bỏ comment dòng trên nếu muốn hiện thông báo lỗi)
+        }
+
+        allVillasAndHotelsList.clear()
+        allVillasAndHotelsList.addAll(MockData.getMockHotels())
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (!isAdded) return
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation()
         } else {
-            Log.e("Location", "Location permission denied")
+            useMockData("Quyền vị trí bị từ chối")
         }
     }
 }

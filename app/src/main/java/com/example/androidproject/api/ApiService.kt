@@ -1,19 +1,28 @@
 package com.example.androidproject.api
 
-import com.example.androidproject.models.InvoicePreviewRequest
-import com.example.androidproject.models.InvoiceResponse
-import com.example.androidproject.models.RoomResponse
+import com.example.androidproject.models.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Url
 
 interface ApiService {
-    // Lấy danh sách phòng (tương ứng với danh sách khách sạn ở Home)
+    // --- API CŨ (Cho RoomList & Checkout cũ) ---
     @GET("rooms")
     fun getAllRooms(): Call<List<RoomResponse>>
 
-    // Tính toán hóa đơn (Preview Invoice)
     @POST("invoices/preview")
     fun previewInvoice(@Body request: InvoicePreviewRequest): Call<InvoiceResponse>
+
+    // --- API MỚI (Cho Checkout mới & Booking) ---
+    @GET("services")
+    fun getServices(): Call<List<ServiceResponse>>
+
+    @GET("bookings")
+    fun getBookingHistory(): Call<List<BookingHistoryResponse>>
+
+    @POST("bookings")
+    fun createBooking(@Body request: CreateBookingRequest): Call<ResponseBody>
 }

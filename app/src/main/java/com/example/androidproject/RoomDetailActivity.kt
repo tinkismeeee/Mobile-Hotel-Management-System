@@ -3,126 +3,110 @@ package com.example.androidproject
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
+import com.example.androidproject.utils.MockData
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.TextInputEditText
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RoomDetailActivity : AppCompatActivity() {
 
-    private lateinit var ivDetailImage: ImageView
     private lateinit var tvHotelName: TextView
-    private lateinit var tvRating: TextView
-    private lateinit var tvLocation: TextView
-    private lateinit var etCheckIn: TextInputEditText
-    private lateinit var etCheckOut: TextInputEditText
-    private lateinit var btnBack: ImageButton
-    private lateinit var btnBookNow: MaterialButton
+    private lateinit var tvPrice: TextView
+    private lateinit var tvDescription: TextView
+    private lateinit var chipGroupServices: ChipGroup
+    private lateinit var tvDateRange: TextView
+    private lateinit var layoutDateSelect: LinearLayout
+    private lateinit var btnBookNow: Button
+    private lateinit var etCheckIn: TextView
+    private lateinit var etCheckOut: TextView
 
-    // Biến lưu thông tin phòng
     private var currentRoomId: Int = 1
-    private var currentPrice: Double = 0.0
+    private var allowedServices: ArrayList<String> = arrayListOf()
+    private val currencyFormat = DecimalFormat("#,###")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_room_detail)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        // 1. Ánh xạ View
-        ivDetailImage = findViewById(R.id.ivDetailImage)
+        // Ánh xạ View
         tvHotelName = findViewById(R.id.tvDetailHotelName)
-        tvRating = findViewById(R.id.tvDetailRating)
-        tvLocation = findViewById(R.id.tvDetailLocation) // Dùng cái này để hiện tiện ích
+        tvPrice = findViewById(R.id.tvDetailPrice)
+        tvDescription = findViewById(R.id.tvDescription)
+        chipGroupServices = findViewById(R.id.chipGroupServices)
+        tvDateRange = findViewById(R.id.tvDateRange)
+        layoutDateSelect = findViewById(R.id.layoutDateSelect)
+        btnBookNow = findViewById(R.id.btnBookNow)
         etCheckIn = findViewById(R.id.etCheckIn)
         etCheckOut = findViewById(R.id.etCheckOut)
-        btnBack = findViewById(R.id.btnBack)
-        btnBookNow = findViewById(R.id.btnBookNow)
 
-        // 2. NHẬN DỮ LIỆU TỪ ROOMLIST ACTIVITY
-        // Các key này phải khớp với bên Adapter
-        val roomNumber = intent.getStringExtra("ROOM_NUMBER") ?: "Phòng VIP"
-        val roomDesc = intent.getStringExtra("ROOM_DESC") ?: "Đầy đủ tiện nghi"
-        currentPrice = intent.getDoubleExtra("ROOM_PRICE", 0.0)
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+
+        // Nhận dữ liệu
+        val roomNumber = intent.getStringExtra("ROOM_NUMBER") ?: ""
+        val price = intent.getDoubleExtra("ROOM_PRICE", 0.0)
         currentRoomId = intent.getIntExtra("ROOM_ID", 1)
+        allowedServices = intent.getStringArrayListExtra("ALLOWED_SERVICES") ?: arrayListOf("SV001", "SV002")
+        val desc = intent.getStringExtra("ROOM_DESC")
 
-        // 3. HIỂN THỊ DỮ LIỆU LÊN GIAO DIỆN
-        tvHotelName.text = "Phòng số: $roomNumber"
+        // Hiển thị
+        tvHotelName.text = "Phòng $roomNumber"
+        tvPrice.text = "${currencyFormat.format(price)} VND"
+        tvDescription.text = if (!desc.isNullOrEmpty()) desc else "Phòng tiện nghi..."
 
-        // Hiển thị tiện ích vào chỗ Location cũ
-        tvLocation.text = "Tiện ích: $roomDesc"
-
-        // Giá trị rating giả lập hoặc lấy từ API nếu có
-        tvRating.text = "4.8"
-
-        // Hiển thị ảnh mặc định (hoặc xử lý ảnh nếu API có trả về URL)
-        ivDetailImage.setImageResource(R.drawable.hotel_img)
-
-        // 4. Xử lý nút Back
-        btnBack.setOnClickListener {
-            finish()
+        // Tạo Chips
+        val allServices = MockData.getMockServices()
+        chipGroupServices.removeAllViews()
+        for (code in allowedServices) {
+            val service = allServices.find { it.serviceCode == code }
+            if (service != null) {
+                val chip = Chip(this)
+                chip.text = service.name
+                chip.setChipBackgroundColorResource(android.R.color.white)
+                chip.isCheckable = false
+                chipGroupServices.addView(chip)
+            }
         }
 
-        // 5. Xử lý chọn ngày (Date Picker)
-        val dateRangePickerClickListener = View.OnClickListener {
-            showDateRangePicker()
-        }
-        etCheckIn.setOnClickListener(dateRangePickerClickListener)
-        etCheckOut.setOnClickListener(dateRangePickerClickListener)
+        // Ngày mặc định
+        val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val today = sdf.format(Date())
+        val tomorrow = sdf.format(Date(System.currentTimeMillis() + 86400000))
+        etCheckIn.text = today
+        etCheckOut.text = tomorrow
+        tvDateRange.text = "$today - $tomorrow"
 
-        // 6. Xử lý nút Đặt Ngay (Book Now)
+        layoutDateSelect.setOnClickListener { showDateRangePicker() }
+
         btnBookNow.setOnClickListener {
             val intent = Intent(this, CheckoutActivity::class.java)
-
-            // Truyền thông tin hiển thị sang trang Checkout
             intent.putExtra("HOTEL_NAME", tvHotelName.text.toString())
-            intent.putExtra("HOTEL_LOCATION", tvLocation.text.toString()) // Truyền tiện ích sang để hiển thị chơi
+            intent.putExtra("HOTEL_LOCATION", "Chi tiết phòng")
             intent.putExtra("CHECK_IN_DATE", etCheckIn.text.toString())
             intent.putExtra("CHECK_OUT_DATE", etCheckOut.text.toString())
-
-            // [QUAN TRỌNG] Truyền ID phòng để trang Checkout gọi API tính tiền
             intent.putExtra("ROOM_ID", currentRoomId)
-
+            intent.putStringArrayListExtra("ALLOWED_SERVICES", allowedServices)
             startActivity(intent)
         }
     }
 
-    /**
-     * Hàm hiển thị lịch chọn ngày
-     */
     private fun showDateRangePicker() {
-        val builder = MaterialDatePicker.Builder.dateRangePicker()
-            .setTitleText("Chọn ngày lưu trú")
-            .setTheme(R.style.ThemeOverlay_App_MaterialCalendar)
-
+        val builder = MaterialDatePicker.Builder.dateRangePicker().setTitleText("Chọn ngày")
         val datePicker = builder.build()
-
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val startDateMillis = selection.first
-            val endDateMillis = selection.second
-
             val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-            val startDateString = sdf.format(startDateMillis)
-            val endDateString = sdf.format(endDateMillis)
-
-            etCheckIn.setText(startDateString)
-            etCheckOut.setText(endDateString)
+            etCheckIn.text = sdf.format(selection.first)
+            etCheckOut.text = sdf.format(selection.second)
+            tvDateRange.text = "${etCheckIn.text} - ${etCheckOut.text}"
         }
-
-        datePicker.show(supportFragmentManager, "DATE_RANGE_PICKER_TAG")
+        datePicker.show(supportFragmentManager, "DATE_PICKER")
     }
 }

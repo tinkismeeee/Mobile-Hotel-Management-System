@@ -15,7 +15,8 @@ interface GooglePlacesApiService {
     ): PlacesResponse
 }
 
-object RetrofitClient {
+// [QUAN TRỌNG] Tên là GoogleClient
+object GoogleClient {
     private const val BASE_URL = "https://maps.googleapis.com/"
 
     private val retrofit: Retrofit by lazy {
