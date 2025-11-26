@@ -1,5 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <stroke android:color="#C3B8B8"
-        android:width="1dp"/>
+
+    <!-- Màu nền -->
+    <solid android:color="#EDE4E4"/>
+
+    <!-- Border (nếu muốn viền) -->
+<!--    <stroke-->
+<!--        android:width="2dp"-->
+<!--        android:color="#BBBBBB"/>-->
 </shape>

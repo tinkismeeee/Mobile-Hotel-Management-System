@@ -85,12 +85,12 @@ class MainActivity : AppCompatActivity() {
             }
             private inner class PasswordCharSequence(private val source: CharSequence) : CharSequence {
                 override fun get(index: Int): Char {
-                    return '*' // This is the important part
+                    return '*'
                 }
                 override val length: Int
-                    get() = source.length // Return default
+                    get() = source.length
                 override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
-                    return source.subSequence(startIndex, endIndex) // Return default
+                    return source.subSequence(startIndex, endIndex)
                 }
             }
         }
@@ -114,6 +114,12 @@ class MainActivity : AppCompatActivity() {
                 incorrect_notification.visibility = View.VISIBLE
                 email_input.text.clear()
                 password_input.text.clear()
+            }
+            else if (email_inputStr == "admin" && password_inputStr == "admin") {
+                Reset_all(email_input, password_input, incorrect_notification, rememberBtn)
+                val intent = Intent(this, admin::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
             else if (email_inputStr != null && password_inputStr != null) {
 //                Log.i("FirebaseAuthCheck", email_inputStr.toString())

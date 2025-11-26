@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Đã xóa namespace SVG không hợp lệ. Đảm bảo các namespace cần thiết được giữ lại -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#F8F8F8"
     tools:context=".home_fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,222 +11,243 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/seeAllRecomendedBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
-            android:text="See All"
-            android:textColor="@color/button_color"
-            app:layout_constraintBottom_toBottomOf="@+id/textView3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.909"
-            app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toTopOf="@+id/textView3"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/location_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/locationBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/circle_background"
-                android:backgroundTint="#EDE4E4"
-                android:contentDescription="Biểu tượng vị trí"
-                android:padding="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/location_icon" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:text="You Can Change Your Location to show nearby villas"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/changeLocationBtn"
-                app:layout_constraintStart_toEndOf="@+id/locationBtn"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/changeLocationBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Thay đổi vị trí"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/arrow_left" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/popular_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/inter_bold"
-            android:text="Most Popular"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location_layout" />
-
-        <TextView
-            android:id="@+id/seeAllPopularBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/inter"
-            android:text="See All"
-            android:textColor="@color/button_color"
-            app:layout_constraintBottom_toBottomOf="@+id/popular_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/popular_title" />
-
-
-        <HorizontalScrollView
-            android:id="@+id/villas_hoz_scroll_view"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="8dp"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/popular_title">
-
-            <!-- Các villa bên trong. Bạn nên dùng RecyclerView ở đây để có hiệu năng tốt nhất -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="160dp"
-                    android:layout_height="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/location_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:contentDescription="Villa phổ biến 1"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/avt" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/imageView15"
-                    android:layout_width="160dp"
-                    android:layout_height="match_parent"
+                    <ImageView
+                        android:id="@+id/locationBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circle_background"
+                        android:backgroundTint="#EDE4E4"
+                        android:contentDescription="Biểu tượng vị trí"
+                        android:padding="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/location_icon" />
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Change your location to show nearby villas, hotels"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/changeLocationBtn"
+                        app:layout_constraintStart_toEndOf="@+id/locationBtn"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/changeLocationBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Thay đổi vị trí"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/arrow_left" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/popular_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Most Popular"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/location_layout" />
+
+                <TextView
+                    android:id="@+id/seeAllPopularBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:contentDescription="Villa phổ biến 2"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/avt" />
-
-                <ImageView
-                    android:id="@+id/imageView16"
-                    android:layout_width="160dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Villa phổ biến 3"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/avt" />
-
-                <ImageView
-                    android:id="@+id/imageView17"
-                    android:layout_width="160dp"
-                    android:layout_height="match_parent"
-                    android:contentDescription="Villa phổ biến 4"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/avt" />
-
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/inter_bold"
-            android:text="Recomended for you"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="@+id/popular_title"
-            app:layout_constraintTop_toBottomOf="@+id/villas_hoz_scroll_view" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-            <Button
-                android:id="@+id/allBtn"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/button_color"
-                android:fontFamily="@font/inter"
-                android:text="All"
-                app:cornerRadius="5sp" />
-
-            <Button
-                android:id="@+id/villasBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/button_border"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="@font/inter"
-                android:text="Villas"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                app:cornerRadius="5sp"
-                app:icon="@drawable/villa_icon"
-                app:iconTintMode="multiply" />
-
-            <Button
-                android:id="@+id/hotelsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:background="@drawable/button_border"
-                android:backgroundTint="@android:color/transparent"
-                android:text="Hotels"
-                android:textColor="#000000"
-                app:cornerRadius="5sp"
-                app:icon="@drawable/hotel_icon"
-                app:iconTintMode="multiply" />
+                    android:fontFamily="@font/inter"
+                    android:text="See All"
+                    android:textColor="@color/button_color"
+                    app:layout_constraintBottom_toBottomOf="@+id/popular_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/popular_title" />
 
 
-        </LinearLayout>
+                <HorizontalScrollView
+                    android:id="@+id/villas_hoz_scroll_view"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/popular_title">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/villas_recycle_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
 
+                        <ImageView
+                            android:id="@+id/imageView14"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Villa phổ biến 1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avt" />
+
+                        <ImageView
+                            android:id="@+id/imageView15"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Villa phổ biến 2"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avt" />
+
+                        <ImageView
+                            android:id="@+id/imageView16"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Villa phổ biến 3"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avt" />
+
+                        <ImageView
+                            android:id="@+id/imageView17"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+                            android:contentDescription="Villa phổ biến 4"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avt" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Recomended for you"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="@+id/popular_title"
+                    app:layout_constraintTop_toBottomOf="@+id/villas_hoz_scroll_view" />
+
+                <TextView
+                    android:id="@+id/seeAllRecomendedBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="See All"
+                    android:textColor="@color/button_color"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.909"
+                    app:layout_constraintStart_toEndOf="@+id/textView3"
+                    app:layout_constraintTop_toTopOf="@+id/textView3"
+                    app:layout_constraintVertical_bias="1.0" />
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                    <Button
+                        android:id="@+id/allBtn"
+                        android:layout_width="70dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/button_color"
+                        android:fontFamily="@font/inter"
+                        android:text="All"
+                        app:cornerRadius="5sp" />
+
+                    <Button
+                        android:id="@+id/villasBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/button_border"
+                        android:backgroundTint="@android:color/transparent"
+                        android:fontFamily="@font/inter"
+                        android:text="Villas"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        app:cornerRadius="5sp"
+                        app:icon="@drawable/villa_icon"
+                        app:iconTintMode="multiply" />
+
+                    <Button
+                        android:id="@+id/hotelsBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="@drawable/button_border"
+                        android:backgroundTint="@android:color/transparent"
+                        android:text="Hotels"
+                        android:textColor="#000000"
+                        android:visibility="invisible"
+                        app:cornerRadius="5sp"
+                        app:icon="@drawable/hotel_icon"
+                        app:iconTintMode="multiply" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="16dp"
+                    android:clipToPadding="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+                    tools:itemCount="5"/>
+<!--                    tools:listitem="@layout/my_booking_item" />-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

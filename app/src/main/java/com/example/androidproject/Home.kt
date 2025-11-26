@@ -41,6 +41,9 @@ class Home : AppCompatActivity() {
             when(it.itemId){
                 R.id.profileBtn -> replaceFragment(main_profile())
             }
+//            when(it.itemId){
+//                R.id.bookingBtn -> replaceFragment(MyBookingFragment())
+//            }
             true
         }
     }

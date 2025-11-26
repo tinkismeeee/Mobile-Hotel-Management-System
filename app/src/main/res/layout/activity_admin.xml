@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F2F5"
+    tools:context=".admin">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainCardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="80dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/rounded_header_bg"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@android:color/white"
+                    android:contentDescription="Settings Icon"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Quản lý hệ thống"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <Space
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/buttonsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@id/headerLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.5"> <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/> <Button
+                android:id="@+id/btnManageEmployees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quản lý nhân viên"
+                android:backgroundTint="#3F51B5"
+                android:textColor="@android:color/white"
+                android:padding="16dp"
+                android:layout_marginBottom="18dp"
+                android:textSize="17sp"
+                app:cornerRadius="10dp"/>
+
+                <Button
+                    android:id="@+id/btnManageCustomers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quản lý khách hàng"
+                    android:backgroundTint="#3F51B5"
+                    android:textColor="@android:color/white"
+                    android:padding="16dp"
+                    android:layout_marginBottom="18dp"
+                    android:textSize="17sp"
+                    app:cornerRadius="10dp"/>
+
+                <Button
+                    android:id="@+id/btnManageServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quản lý dịch vụ"
+                    android:backgroundTint="#3F51B5"
+                    android:textColor="@android:color/white"
+                    android:padding="16dp"
+                    android:layout_marginBottom="18dp"
+                    android:textSize="17sp"
+                    app:cornerRadius="10dp"/>
+
+                <Button
+                    android:id="@+id/btnRevenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Doanh thu"
+                    android:backgroundTint="#3F51B5"
+                    android:textColor="@android:color/white"
+                    android:padding="16dp"
+                    android:layout_marginBottom="18dp" android:textSize="17sp"
+                    app:cornerRadius="10dp"/>
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:backgroundTint="#3F51B5"
+                    android:textColor="@android:color/white"
+                    android:padding="16dp"
+                    android:textSize="17sp"
+                    app:cornerRadius="10dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/> </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
