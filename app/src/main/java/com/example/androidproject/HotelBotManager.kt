@@ -46,7 +46,6 @@ class HotelBotManager(
         }
         rootView.addView(btnFloatingBot, params)
 
-        // 2. NẠP KHUNG CHAT TỪ XML
         try {
             activity.layoutInflater.inflate(R.layout.layout_hotel_bot, rootView, true)
 
@@ -61,13 +60,11 @@ class HotelBotManager(
             cardPanel.bringToFront()
             cardPanel.elevation = 101f
 
-            // Logic Nút Đóng
             btnClose.setOnClickListener {
                 cardPanel.visibility = View.GONE
                 btnFloatingBot.visibility = View.VISIBLE
             }
 
-            // Logic Gửi Tin
             btnSend.setOnClickListener {
                 val question = etInput.text.toString()
                 if (question.isNotEmpty()) {
@@ -91,7 +88,6 @@ class HotelBotManager(
                 }
             }
 
-            // Logic Kéo Thả
             setupDragAndDrop(btnFloatingBot) {
                 cardPanel.visibility = View.VISIBLE
                 btnFloatingBot.visibility = View.GONE
