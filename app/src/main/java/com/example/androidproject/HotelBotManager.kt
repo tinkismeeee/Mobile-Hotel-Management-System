@@ -71,18 +71,18 @@ class HotelBotManager(
             btnSend.setOnClickListener {
                 val question = etInput.text.toString()
                 if (question.isNotEmpty()) {
-                    tvContent.append("\n\n🧑Bạn: $question")
+                    tvContent.append("\n\nBạn 🧑: $question")
                     etInput.text.clear()
                     scroll.post { scroll.fullScroll(View.FOCUS_DOWN) }
-                    tvContent.append("\n🤖Bot: ...")
+                    tvContent.append("\nBot 🤖: ...")
 
                     activity.lifecycleScope.launch {
                         try {
                             if (globalChatHistory == null) initAI()
 
                             val response = globalChatHistory?.sendMessage(question)
-                            val text = tvContent.text.toString().replace("\n🤖: ...", "")
-                            tvContent.text = "$text\n🤖Bot: ${response?.text}"
+                            val text = tvContent.text.toString().replace("\nBot 🤖: ...", "")
+                            tvContent.text = "$text\nBot 🤖: ${response?.text}"
                         } catch (e: Exception) {
                             tvContent.append("\n❌ Lỗi: ${e.message}")
                         }
@@ -106,7 +106,7 @@ class HotelBotManager(
     private fun initAI() {
         try {
             val model = GenerativeModel(
-                modelName = "gemini-flash-latest", // Đã dùng được vì đã sửa build.gradle
+                modelName = "gemini-flash-latest",
                 apiKey = apiKey,
                 systemInstruction = content { text(hotelInfo) }
             )

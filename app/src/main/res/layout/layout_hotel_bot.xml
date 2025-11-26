@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!-- 1. NÚT TRÒN GIẢ (Để xem trước, nút thật tạo bằng code) -->
     <ImageView
         android:id="@+id/btnFloatingBot"
         android:layout_width="60dp"
@@ -18,8 +16,6 @@
         android:visibility="gone"
         tools:visibility="visible"
         app:tint="#FFFFFF"/>
-
-    <!-- 2. KHUNG CHAT -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardChatPanel"
         android:layout_width="320dp"
@@ -36,7 +32,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Header -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -46,7 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🏨 Lễ tân ảo"
+                    android:text="🏨 ChatBot khách sạn"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:textSize="18sp"
@@ -63,9 +58,6 @@
                     app:tint="#FFFFFF" />
             </RelativeLayout>
 
-            <!-- Nội dung chat -->
-
-            <!-- Nhập liệu -->
 
             <ScrollView
                 android:id="@+id/scrollChat"
@@ -79,7 +71,7 @@
                     android:id="@+id/tvChatContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Xin chào! Em có thể giúp gì ạ?"
+                    android:text="Xin chào! Quý Khách cần hỏi gì ạ?"
                     android:textColor="#333333"
                     android:textSize="16sp" />
             </ScrollView>

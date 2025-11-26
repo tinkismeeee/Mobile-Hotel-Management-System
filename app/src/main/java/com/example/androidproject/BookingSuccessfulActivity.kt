@@ -106,7 +106,7 @@ class BookingSuccessfulActivity : AppCompatActivity() {
 
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("Đặt phòng thành công! ")
+            .setContentTitle("Đặt phòng thành công!")
             .setContentText(contentText)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
