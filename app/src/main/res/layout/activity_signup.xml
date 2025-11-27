@@ -1,26 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".signup">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/form_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="52dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="52dp"
+        android:paddingBottom="52dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="349dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15sp"
+                android:fontFamily="@font/cambay_bold"
+                android:text="Phone number"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/phone_input"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:hint="Enter your phone number"
+                android:inputType="datetime|date"
+                android:minHeight="48dp"
+                android:paddingLeft="30sp" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linearLayout4"
@@ -112,11 +140,12 @@
             android:id="@+id/continueBtn"
             android:layout_width="349dp"
             android:layout_height="60dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="40dp"
             android:backgroundTint="#2853AF"
             android:text="Create An Account"
             app:cornerRadius="12sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
@@ -127,8 +156,9 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.469"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2b">
 
             <TextView
                 android:id="@+id/textView5"
@@ -169,17 +199,99 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2a"
+            android:layout_width="349dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:id="@+id/textView4a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cambay_bold"
+                android:text="Username"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/username_input"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:hint="Enter your username"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:paddingLeft="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4a" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout2"
             android:layout_width="349dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout10">
 
             <TextView
                 android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cambay_bold"
+                android:text="Address"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/address_input"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:hint="Enter your phone address"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:paddingLeft="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2b"
+            android:layout_width="349dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2a">
+
+            <TextView
+                android:id="@+id/textView4b"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cambay_bold"
@@ -197,13 +309,13 @@
                 android:background="@drawable/rounded_edittext"
                 android:ems="10"
                 android:hint="Enter your email"
-                android:inputType="text|textEmailAddress"
+                android:inputType="datetime|date"
                 android:minHeight="48dp"
                 android:paddingLeft="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4b" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -273,4 +385,4 @@
             app:srcCompat="?attr/homeAsUpIndicator" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

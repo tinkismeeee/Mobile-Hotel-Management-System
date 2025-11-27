@@ -36,13 +36,13 @@ class AddKhachHangActivity : AppCompatActivity() {
         spGender = findViewById(R.id.spGender)
         btnSaveCustomer = findViewById(R.id.btnSaveCustomer)
 
-        // Spinner
+
         val genderList = listOf("Nam", "Nữ")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spGender.adapter = adapter
 
-        // Save button click
+
         btnSaveCustomer.setOnClickListener {
 
             val customer = NewCustomer(

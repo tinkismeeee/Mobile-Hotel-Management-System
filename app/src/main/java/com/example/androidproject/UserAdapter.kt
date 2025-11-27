@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class UserAdapter(
     private val userList: MutableList<User>,
-    private val onItemClick: (User) -> Unit // callback khi nhấn item
+    private val onItemClick: (User) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

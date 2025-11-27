@@ -17,17 +17,17 @@ class admin : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin)
 
-        // Ánh xạ các thành phần UI từ layout
+
         val btnManageEmployees: Button = findViewById(R.id.btnManageEmployees)
         val btnManageCustomers: Button = findViewById(R.id.btnManageCustomers)
         val btnManageServices: Button = findViewById(R.id.btnManageServices)
         val btnRevenue: Button = findViewById(R.id.btnRevenue)
-        val btnLogout: Button = findViewById(R.id.btnLogout) // Ánh xạ nút Logout mới
+        val btnLogout: Button = findViewById(R.id.btnLogout)
 
-        // Thiết lập OnClickListener cho các nút chức năng
+
         btnManageEmployees.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Quản lý nhân viên", Toast.LENGTH_SHORT).show()
-            // Thêm code để mở màn hình Quản lý nhân viên tại đây
+
         }
 
         btnManageEmployees.setOnClickListener {
@@ -36,7 +36,7 @@ class admin : AppCompatActivity() {
         }
         btnManageCustomers.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Quản lý khách hàng", Toast.LENGTH_SHORT).show()
-            // Thêm code để mở màn hình Quản lý khách hàng tại đây
+
         }
         btnManageCustomers.setOnClickListener {
             val intent = Intent(this, KhachHangActivity::class.java)
@@ -44,18 +44,18 @@ class admin : AppCompatActivity() {
         }
         btnManageServices.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Quản lý dịch vụ", Toast.LENGTH_SHORT).show()
-            // Thêm code để mở màn hình Quản lý dịch vụ tại đây
+
         }
 
         btnRevenue.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Doanh thu", Toast.LENGTH_SHORT).show()
-            // Thêm code để mở màn hình Doanh thu tại đây
+
         }
 
-        // Thiết lập OnClickListener cho nút Logout mới
+
         btnLogout.setOnClickListener {
             Toast.makeText(this, "Đang thực hiện Logout...", Toast.LENGTH_SHORT).show()
-            // Thêm code xử lý đăng xuất tại đây (ví dụ: chuyển về màn hình Login)
+
         }
         btnLogout.setOnClickListener {
             val intent = Intent(this, logout::class.java)

@@ -28,7 +28,7 @@ class NhanVienActivity : AppCompatActivity() {
         userAdapter = UserAdapter(userList) { selectedUser ->
             val intent = Intent(this, EditNhanVienActivity::class.java)
             intent.putExtra("USER_ID", selectedUser.user_id)
-            startActivityForResult(intent, 100) // requestCode = 100
+            startActivityForResult(intent, 100)
         }
         recyclerView.adapter = userAdapter
 
@@ -40,7 +40,7 @@ class NhanVienActivity : AppCompatActivity() {
         }
         findViewById<ImageView>(R.id.btnAdd).setOnClickListener {
             val intent = Intent(this, AddNhanVienActivity::class.java)
-            startActivityForResult(intent, 101) // thêm nhân viên xong reload
+            startActivityForResult(intent, 101)
         }
     }
 
@@ -64,7 +64,7 @@ class NhanVienActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if ((requestCode == 100 || requestCode == 101) && resultCode == RESULT_OK) {
-            fetchStaff() // reload danh sách sau sửa/xoá hoặc thêm
+            fetchStaff()
         }
     }
 }

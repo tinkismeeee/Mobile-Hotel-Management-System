@@ -25,13 +25,13 @@ class EditNhanVienActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_nhan_vien)
 
         // Ánh xạ view
-        etEmail = findViewById(R.id.etEmail)         // Email
-        etFirstName = findViewById(R.id.etFirstName) // First Name
-        etLastName = findViewById(R.id.etLastName)   // Last Name
-        etPhone = findViewById(R.id.etPhoneNumber)   // Phone Number
-        cbIsActive = findViewById(R.id.cbIsActive)   // Is Active
-        btnSave = findViewById(R.id.btnSave)         // Save button
-        btnDelete = findViewById(R.id.btnDelete)     // Delete button
+        etEmail = findViewById(R.id.etEmail)
+        etFirstName = findViewById(R.id.etFirstName)
+        etLastName = findViewById(R.id.etLastName)
+        etPhone = findViewById(R.id.etPhoneNumber)
+        cbIsActive = findViewById(R.id.cbIsActive)
+        btnSave = findViewById(R.id.btnSave)
+        btnDelete = findViewById(R.id.btnDelete)
 
         // Lấy userId từ Intent
         userId = intent.getIntExtra("USER_ID", 0)
@@ -83,7 +83,7 @@ class EditNhanVienActivity : AppCompatActivity() {
                 })
         }
 
-        // Nút Delete
+
         btnDelete.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Delete User")
@@ -124,7 +124,7 @@ class EditNhanVienActivity : AppCompatActivity() {
     }
 
     private fun loadUserDetails() {
-        RetrofitClient.instance.getUser(userId)  // Sử dụng API getStaff(id)
+        RetrofitClient.instance.getUser(userId)
             .enqueue(object : Callback<User> {
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.isSuccessful) {

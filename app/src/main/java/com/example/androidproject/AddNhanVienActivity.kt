@@ -23,7 +23,7 @@ class AddNhanVienActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_nhan_vien)
 
-        // ÁNH XẠ THEO ĐÚNG THỨ TỰ JSON
+
         etUsername = findViewById(R.id.etUsername)
         etPassword = findViewById(R.id.etPassword)
         etEmail = findViewById(R.id.etEmail)
@@ -34,7 +34,7 @@ class AddNhanVienActivity : AppCompatActivity() {
 
         btnSave.setOnClickListener {
 
-            // TẠO BODY THEO ĐÚNG THỨ TỰ BACKEND MUỐN
+
             val newUser = NewUser(
                 username = etUsername.text.toString().trim(),
                 password = etPassword.text.toString().trim(),
