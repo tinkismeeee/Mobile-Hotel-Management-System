@@ -28,7 +28,7 @@ class NhanVienActivity : AppCompatActivity() {
         userAdapter = UserAdapter(userList) { selectedUser ->
             val intent = Intent(this, EditNhanVienActivity::class.java)
             intent.putExtra("USER_ID", selectedUser.user_id)
-            startActivityForResult(intent, 100) // requestCode = 100
+            startActivityForResult(intent, 100)
         }
         recyclerView.adapter = userAdapter
 

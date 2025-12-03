@@ -76,3 +76,28 @@ data class UpdateCustomerRequest(
     val is_active: Boolean?
 )
 
+data class Service(
+    val service_id: Int,
+    val service_code: String,
+    val name: String,
+    val price: String,
+    val availability: Boolean,
+    val description: String
+)
+
+data class NewService(
+    val service_code: String,
+    val name: String,
+    val price: String,
+    val availability: Boolean,
+    val description: String
+)
+
+data class UpdateServiceRequest(
+    val service_code: String,
+    val name: String,
+    val price: String,
+    val availability: Boolean,
+    val description: String
+)
+

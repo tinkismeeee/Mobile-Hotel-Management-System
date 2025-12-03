@@ -48,7 +48,10 @@ class admin : AppCompatActivity() {
             Toast.makeText(this, "Bạn đã nhấn Quản lý dịch vụ", Toast.LENGTH_SHORT).show()
             // Thêm code để mở màn hình Quản lý dịch vụ tại đây
         }
-
+        btnManageServices.setOnClickListener {
+            val intent = Intent(this, Dichvu::class.java)
+            startActivity(intent)
+        }
         btnRevenue.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Doanh thu", Toast.LENGTH_SHORT).show()
             // Thêm code để mở màn hình Doanh thu tại đây
