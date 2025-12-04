@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.models.RoomResponse
-import com.example.androidproject.utils.MockData
 import java.text.DecimalFormat
+import java.util.ArrayList
 
 class RoomListAdapter(private val roomList: List<RoomResponse>) :
     RecyclerView.Adapter<RoomListAdapter.RoomViewHolder>() {
@@ -33,46 +33,41 @@ class RoomListAdapter(private val roomList: List<RoomResponse>) :
         val room = roomList[position]
         val formatter = DecimalFormat("#,###")
 
-        // Gán thông tin cơ bản
         holder.name.text = "Phòng ${room.room_number} - ${room.type ?: "Standard"}"
-        holder.price.text = "Giá: ${formatter.format(room.price_per_night)} VND/đêm"
-        holder.rating.text = room.status
+        val priceVal = room.price_per_night ?: 0.0
+        holder.price.text = "Giá: ${formatter.format(priceVal)} VND/đêm"
+        holder.rating.text = if (room.status == "available") "Trống" else room.status
 
-        // Xử lý danh sách dịch vụ (An toàn)
-        val safeAllowedCodes = room.allowedServiceCodes ?: arrayListOf("SV001", "SV002")
-        val allServices = MockData.getMockServices()
+        // Hiển thị thông số thật từ API
+        val info = StringBuilder()
+        if (room.floor != null) info.append("• Tầng: ${room.floor}\n")
+        if (room.max_guests != null) info.append("• Tối đa: ${room.max_guests} khách\n")
+        if (room.bed_count != null) info.append("• Giường: ${room.bed_count}")
 
-        val serviceNames = safeAllowedCodes.mapNotNull { code ->
-            allServices.find { it.serviceCode == code }?.name
-        }
-
-        if (serviceNames.isNotEmpty()) {
-            holder.services.text = serviceNames.joinToString(separator = "\n", prefix = "• ")
-        } else {
-            holder.services.text = "• Tiện ích cơ bản"
-        }
-
+        holder.services.text = if (info.isNotEmpty()) info.toString() else "• Đang cập nhật thông tin"
         holder.image.setImageResource(R.drawable.hotel_img)
+
+        // Logic gán dịch vụ (Client-side logic) dựa trên loại phòng thật
+        val generatedServiceCodes = when(room.type) {
+            "Suite", "Family", "Deluxe" -> arrayListOf("SV001", "SV002", "SV003", "SV004", "SV005")
+            "Business" -> arrayListOf("SV001", "SV002", "SV006")
+            else -> arrayListOf("SV001", "SV002")
+        }
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, RoomDetailActivity::class.java)
 
-            // Truyền các dữ liệu cơ bản
             intent.putExtra("ROOM_ID", room.id)
             intent.putExtra("ROOM_NUMBER", room.room_number)
             intent.putExtra("ROOM_TYPE", room.type)
-            intent.putExtra("ROOM_PRICE", room.price_per_night)
+            intent.putExtra("ROOM_PRICE", priceVal)
             intent.putExtra("ROOM_DESC", room.description)
             intent.putExtra("ROOM_GUESTS", room.max_guests)
             intent.putExtra("ROOM_BEDS", room.bed_count)
             intent.putExtra("ROOM_FLOOR", room.floor)
 
-            // [SỬA LỖI VĂNG APP TẠI ĐÂY]
-            // Ép kiểu về ArrayList một cách tường minh trước khi gửi
-            // Điều này ngăn chặn lỗi "ClassCastException" ngầm
-            val listToSend = ArrayList(safeAllowedCodes)
-            intent.putStringArrayListExtra("ALLOWED_SERVICES", listToSend)
+            intent.putStringArrayListExtra("ALLOWED_SERVICES", generatedServiceCodes)
 
             context.startActivity(intent)
         }

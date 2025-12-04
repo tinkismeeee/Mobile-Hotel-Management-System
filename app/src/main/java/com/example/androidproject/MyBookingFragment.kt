@@ -1,117 +1,92 @@
 package com.example.androidproject
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.androidproject.api.RetrofitClient
+import com.example.androidproject.models.BookingHistoryResponse
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MyBookingFragment : Fragment() {
 
-    // === KHAI BÁO BIẾN ===
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: MyBookingAdapter
     private lateinit var tabLayout: TabLayout
-
-    // Danh sách "gốc" chứa tất cả dữ liệu
-    private var allBookingsList = mutableListOf<Booking>()
-    // Danh sách "hiển thị" (đã lọc)
-    private var displayedBookingList = mutableListOf<Booking>()
-    // ====================
+    private lateinit var recyclerView: RecyclerView
+    private var fullList: List<BookingHistoryResponse> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Tải layout cho "My Booking"
         return inflater.inflate(R.layout.fragment_my_booking, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // === CODE LOGIC KẾT NỐI GIAO DIỆN ===
-
-        // 1. Tạo dữ liệu giả và lưu vào danh sách "gốc"
-        createMockData()
-
-        // 2. Tìm các View từ layout (dựa trên ID trong file .xml)
-        recyclerView = view.findViewById(R.id.recyclerViewBookings)
         tabLayout = view.findViewById(R.id.tabLayout)
-
-        // 3. Thiết lập RecyclerView
+        recyclerView = view.findViewById(R.id.rvMyBookings)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        // Khởi tạo Adapter với danh sách "hiển thị"
-        displayedBookingList.clear()
-        displayedBookingList.addAll(allBookingsList)
 
-        adapter = MyBookingAdapter(displayedBookingList)
-        recyclerView.adapter = adapter
+        // 1. Tải dữ liệu khi mở màn hình
+        loadBookings()
 
-
+        // 2. Xử lý khi bấm chuyển Tab
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                filterList(tab?.position ?: 0)
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
-    private fun createMockData() {
-        allBookingsList.clear() // Xóa dữ liệu cũ (nếu có)
-        allBookingsList.add(
-            Booking(
-                hotelName = "The Aston Vill Hotel",
-                rating = 4.7,
-                location = "Veum Point, Michikoton",
-                pricePerNight = 120,
-                startDate = "12",
-                endDate = "14 Nov 2024",
-                guests = 2,
-                rooms = 1,
-                status = "booked" // <-- Status cho Tab "Booked"
-            )
-        )
-        allBookingsList.add(
-            Booking(
-                hotelName = "Mystic Palms",
-                rating = 4.0,
-                location = "Palm Springs, CA",
-                pricePerNight = 230,
-                startDate = "20",
-                endDate = "25 Nov 2024",
-                guests = 1,
-                rooms = 1,
-                status = "history" // <-- Status cho Tab "History"
-            )
-        )
-        allBookingsList.add(
-            Booking(
-                hotelName = "Elysian Suites",
-                rating = 3.8,
-                location = "San Diego, CA",
-                pricePerNight = 320,
-                startDate = "27",
-                endDate = "28 Nov 2024",
-                guests = 1,
-                rooms = 1,
-                status = "booked" // <-- Status cho Tab "Booked"
-            )
-        )
+    private fun loadBookings() {
+        RetrofitClient.instance.getBookingHistory().enqueue(object : Callback<List<BookingHistoryResponse>> {
+            override fun onResponse(call: Call<List<BookingHistoryResponse>>, response: Response<List<BookingHistoryResponse>>) {
+                if (response.isSuccessful) {
+                    fullList = response.body() ?: emptyList()
+                    // Mặc định hiển thị tab đầu tiên (Sắp tới)
+                    filterList(0)
+                } else {
+                    Toast.makeText(context, "Lỗi tải lịch sử", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<BookingHistoryResponse>>, t: Throwable) {
+                // Demo dữ liệu giả nếu lỗi mạng
+                fullList = getFakeBookings()
+                filterList(0)
+                Toast.makeText(context, "Đang hiển thị dữ liệu mẫu", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
-    /**
-     * Gắn bộ lắng nghe cho TabLayout
-     */
+    private fun filterList(tabIndex: Int) {
+        val filteredList = if (tabIndex == 0) {
+            // Tab 0: Sắp tới (Confirmed, Pending)
+            fullList.filter { it.status == "confirmed" || it.status == "pending" }
+        } else {
+            // Tab 1: Lịch sử (Completed, Cancelled)
+            fullList.filter { it.status == "completed" || it.status == "cancelled" }
+        }
 
+        recyclerView.adapter = MyBookingAdapter(filteredList)
+    }
 
-    /**
-     * Gắn bộ lắng nghe cho Thanh tìm kiếm
-     */
-
-    /**
-     * HÀM QUAN TRỌNG: "BỘ NÃO" CỦA VIỆC LỌC
-     * Lọc danh sách `allBookingsList` dựa trên tab và tìm kiếm,
-     * sau đó cập nhật `displayedBookingList`
-     */
+    // Hàm tạo dữ liệu giả (Để demo không bị trắng màn hình)
+    private fun getFakeBookings(): List<BookingHistoryResponse> {
+        return listOf(
+            BookingHistoryResponse(1, 11, "2025-11-24", "2025-12-24", "2025-12-26", "confirmed", 2, "user11"),
+            BookingHistoryResponse(2, 11, "2025-10-10", "2025-10-15", "2025-10-18", "completed", 1, "user11"),
+            BookingHistoryResponse(3, 11, "2025-11-30", "2025-12-30", "2025-12-31", "pending", 4, "user11")
+        )
+    }
 }

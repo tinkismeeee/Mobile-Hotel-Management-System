@@ -1,31 +1,26 @@
 package com.example.androidproject.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-// 1. Model cho Dịch vụ (Đã sửa khớp với API 217.216.72.223)
+// Model Dịch vụ nhận từ API
 data class ServiceResponse(
-    // Dùng @SerializedName để ánh xạ chính xác tên trường từ JSON
-    @SerializedName("service_id")
-    val id: Int,
-
-    @SerializedName("service_code")
-    val serviceCode: String, // VD: "SV001"
-
-    val name: String,        // VD: "Laundry"
-    val price: Double,       // Gson tự chuyển chuỗi "50000.00" thành Double
+    @SerializedName("service_id") val id: Int,
+    @SerializedName("service_code") val serviceCode: String,
+    val name: String,
+    val price: Double,
     val availability: Boolean,
     val description: String?,
+    var quantity: Int = 0
+) : Serializable
 
-    var quantity: Int = 0    // Biến đếm số lượng (Client tự thêm)
-)
-
-// 2. Model phụ cho danh sách dịch vụ gửi đi (POST)
+// Model Dịch vụ gửi lên Server (Rút gọn)
 data class BookingServiceItem(
     val serviceCode: String,
     val quantity: Int
-)
+) : Serializable
 
-// 3. Model trọn vẹn cho Request đặt phòng (POST)
+// Model Tạo Đặt phòng (Gửi lên Server)
 data class CreateBookingRequest(
     val user_id: Int,
     val room_ids: List<Int>,
@@ -34,9 +29,9 @@ data class CreateBookingRequest(
     val total_guests: Int,
     val services: List<BookingServiceItem>,
     val promotionCode: String?
-)
+) : Serializable
 
-// 4. Model cho Lịch sử đặt phòng (Giữ nguyên)
+// Model Lịch sử (Nhận từ Server)
 data class BookingHistoryResponse(
     val booking_id: Int,
     val user_id: Int,
@@ -47,4 +42,4 @@ data class BookingHistoryResponse(
     val total_guests: Int,
     val username: String,
     val hotel_name: String? = "Khách sạn Demo"
-)
+) : Serializable

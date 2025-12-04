@@ -149,7 +149,7 @@ class enterOTP : AppCompatActivity() {
             .add("email", email)
             .build()
         val request = Request.Builder()
-            .url("http://176.57.189.146:3001/send-otp")
+            .url("http://217.216.72.223:3001/send-otp")
             .post(requestBody)
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -171,7 +171,7 @@ class enterOTP : AppCompatActivity() {
             .add("otp", otp)
             .build()
         val request = Request.Builder()
-            .url("http://176.57.189.146:3001/verify-otp")
+            .url("http://217.216.72.223:3001/verify-otp")
             .post(formBody)
             .build()
         client.newCall(request).enqueue(object : Callback {

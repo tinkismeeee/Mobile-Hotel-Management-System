@@ -7,12 +7,17 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.TextView // [QUAN TRỌNG] Dùng TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.androidproject.utils.MockData
+import com.example.androidproject.api.RetrofitClient
+import com.example.androidproject.models.ServiceResponse
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +31,8 @@ class RoomDetailActivity : AppCompatActivity() {
     private lateinit var tvDateRange: TextView
     private lateinit var layoutDateSelect: LinearLayout
     private lateinit var btnBookNow: Button
+
+    // [SỬA LỖI] Dùng TextView (không dùng TextInputEditText) để tránh Crash
     private lateinit var etCheckIn: TextView
     private lateinit var etCheckOut: TextView
 
@@ -45,6 +52,8 @@ class RoomDetailActivity : AppCompatActivity() {
         tvDateRange = findViewById(R.id.tvDateRange)
         layoutDateSelect = findViewById(R.id.layoutDateSelect)
         btnBookNow = findViewById(R.id.btnBookNow)
+
+        // [SỬA LỖI] Ánh xạ đúng loại View
         etCheckIn = findViewById(R.id.etCheckIn)
         etCheckOut = findViewById(R.id.etCheckOut)
 
@@ -53,30 +62,20 @@ class RoomDetailActivity : AppCompatActivity() {
         // Nhận dữ liệu
         val roomNumber = intent.getStringExtra("ROOM_NUMBER") ?: ""
         val price = intent.getDoubleExtra("ROOM_PRICE", 0.0)
+        val roomType = intent.getStringExtra("ROOM_TYPE") ?: ""
         currentRoomId = intent.getIntExtra("ROOM_ID", 1)
         allowedServices = intent.getStringArrayListExtra("ALLOWED_SERVICES") ?: arrayListOf("SV001", "SV002")
         val desc = intent.getStringExtra("ROOM_DESC")
 
-        // Hiển thị
-        tvHotelName.text = "Phòng $roomNumber"
+        // Hiển thị thông tin
+        tvHotelName.text = if(roomType.isNotEmpty()) "$roomType - P.$roomNumber" else "Phòng $roomNumber"
         tvPrice.text = "${currencyFormat.format(price)} VND"
         tvDescription.text = if (!desc.isNullOrEmpty()) desc else "Phòng tiện nghi..."
 
-        // Tạo Chips
-        val allServices = MockData.getMockServices()
-        chipGroupServices.removeAllViews()
-        for (code in allowedServices) {
-            val service = allServices.find { it.serviceCode == code }
-            if (service != null) {
-                val chip = Chip(this)
-                chip.text = service.name
-                chip.setChipBackgroundColorResource(android.R.color.white)
-                chip.isCheckable = false
-                chipGroupServices.addView(chip)
-            }
-        }
+        // Gọi API lấy tên dịch vụ để hiển thị
+        loadServicesForChips()
 
-        // Ngày mặc định
+        // Ngày mặc định (Hôm nay -> Ngày mai)
         val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val today = sdf.format(Date())
         val tomorrow = sdf.format(Date(System.currentTimeMillis() + 86400000))
@@ -96,6 +95,29 @@ class RoomDetailActivity : AppCompatActivity() {
             intent.putStringArrayListExtra("ALLOWED_SERVICES", allowedServices)
             startActivity(intent)
         }
+    }
+
+    private fun loadServicesForChips() {
+        RetrofitClient.instance.getServices().enqueue(object : Callback<List<ServiceResponse>> {
+            override fun onResponse(call: Call<List<ServiceResponse>>, response: Response<List<ServiceResponse>>) {
+                if (response.isSuccessful) {
+                    val allServices = response.body() ?: emptyList()
+                    chipGroupServices.removeAllViews()
+                    for (service in allServices) {
+                        if (allowedServices.contains(service.serviceCode)) {
+                            val chip = Chip(this@RoomDetailActivity)
+                            chip.text = service.name
+                            chip.setChipBackgroundColorResource(android.R.color.white)
+                            chip.setChipStrokeColorResource(android.R.color.black)
+                            chip.setChipStrokeWidth(1f)
+                            chip.isCheckable = false
+                            chipGroupServices.addView(chip)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<ServiceResponse>>, t: Throwable) {}
+        })
     }
 
     private fun showDateRangePicker() {
