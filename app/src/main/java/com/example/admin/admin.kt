@@ -56,7 +56,10 @@ class admin : AppCompatActivity() {
             Toast.makeText(this, "Bạn đã nhấn Doanh thu", Toast.LENGTH_SHORT).show()
             // Thêm code để mở màn hình Doanh thu tại đây
         }
-
+        btnRevenue.setOnClickListener {
+            val intent = Intent(this, DoanhThuActivity::class.java)
+            startActivity(intent)
+        }
         // Thiết lập OnClickListener cho nút Logout mới
         btnLogout.setOnClickListener {
             Toast.makeText(this, "Đang thực hiện Logout...", Toast.LENGTH_SHORT).show()

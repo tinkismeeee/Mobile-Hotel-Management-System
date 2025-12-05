@@ -57,5 +57,12 @@ interface ApiService {
     @DELETE("api/services/{id}")
     fun deleteService(@retrofit2.http.Path("id") id: Int): Call<Void>
 
+    @GET("api/invoices")
+    fun getAllInvoices(): Call<List<Invoice>>
+
+
+    @GET("api/invoices/{id}")
+    fun getInvoice(@retrofit2.http.Path("id") id: Int): Call<Invoice>
+
 }
 

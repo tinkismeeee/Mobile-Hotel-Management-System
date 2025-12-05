@@ -13,12 +13,17 @@
         android:theme="@style/Theme.Admin"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".InvoiceWebViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoanhThuActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditDichvuActivity"
             android:exported="false" />
         <activity
             android:name=".AddDichvu"
             android:exported="false" />
-
         <activity
             android:name=".Dichvu"
             android:exported="false" />

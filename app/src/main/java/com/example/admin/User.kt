@@ -101,3 +101,19 @@ data class UpdateServiceRequest(
     val description: String
 )
 
+data class Invoice(
+    val invoice_id: Int,
+    val booking_id: Int,
+    val staff_id: Int,
+    val issue_date: String,
+    val total_room_cost: String,
+    val total_service_cost: String,
+    val discount_amount: String,
+    val final_amount: String,
+    val vat_amount: String,
+    val payment_method: String,
+    val promotion_id: Int?,
+    val payment_status: String,
+    val total_amount: String?,
+    val tax_amount: String?
+)
