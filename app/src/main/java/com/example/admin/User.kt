@@ -117,3 +117,22 @@ data class Invoice(
     val total_amount: String?,
     val tax_amount: String?
 )
+data class RoomType(
+    val room_type_id: Int,
+    val name: String,
+    val description: String,
+    val is_active: Boolean
+)
+
+
+data class NewRoomType(
+    val name: String,
+    val description: String,
+    val is_active: Boolean
+)
+
+data class UpdateRoomTypeRequest(
+    val name: String,
+    val description: String,
+    val is_active: Boolean
+)

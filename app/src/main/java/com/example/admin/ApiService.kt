@@ -64,5 +64,29 @@ interface ApiService {
     @GET("api/invoices/{id}")
     fun getInvoice(@retrofit2.http.Path("id") id: Int): Call<Invoice>
 
+
+    // Lấy tất cả RoomTypes
+    @GET("api/room-types")
+    fun getAllRoomTypes(): Call<List<RoomType>>
+
+    // Lấy RoomType theo id
+    @GET("api/room-types/{id}")
+    fun getRoomType(@retrofit2.http.Path("id") id: Int): Call<RoomType>
+
+    // Thêm RoomType mới
+    @POST("api/room-types")
+    fun addRoomType(@Body newRoomType: NewRoomType): Call<RoomType>
+
+    // Cập nhật RoomType
+    @PUT("api/room-types/{id}")
+    fun updateRoomType(@retrofit2.http.Path("id") id: Int, @Body updatedRoomType:  UpdateRoomTypeRequest): Call<RoomType>
+
+    // Xóa RoomType
+    @DELETE("api/room-types/{id}")
+    fun deleteRoomType(@retrofit2.http.Path("id") id: Int): Call<Void>
+
+
+
+
 }
 

@@ -21,6 +21,7 @@ class admin : AppCompatActivity() {
         val btnManageEmployees: Button = findViewById(R.id.btnManageEmployees)
         val btnManageCustomers: Button = findViewById(R.id.btnManageCustomers)
         val btnManageServices: Button = findViewById(R.id.btnManageServices)
+        val btnRoom: Button = findViewById(R.id.btnRoom)
         val btnRevenue: Button = findViewById(R.id.btnRevenue)
         val btnLogout: Button = findViewById(R.id.btnLogout) // Ánh xạ nút Logout mới
 
@@ -58,6 +59,10 @@ class admin : AppCompatActivity() {
         }
         btnRevenue.setOnClickListener {
             val intent = Intent(this, DoanhThuActivity::class.java)
+            startActivity(intent)
+        }
+        btnRoom.setOnClickListener {
+            val intent = Intent(this, LoaiphongActivity::class.java)
             startActivity(intent)
         }
         // Thiết lập OnClickListener cho nút Logout mới
