@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_light"
-                android:text="Or Sign In with"
+                android:text="or sign up with"
                 android:textAlignment="center"
                 android:textColor="#838383" />
 
@@ -117,13 +117,13 @@
             android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView8"
+            app:layout_constraintEnd_toStartOf="@+id/facebook_login"
             app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
             app:srcCompat="@drawable/apple_logo" />
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/facebook_login"
             android:layout_width="78dp"
             android:layout_height="48dp"
             android:layout_marginTop="28dp"
@@ -309,7 +309,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:ems="10"
                 android:hint="Enter your email"
-                android:inputType="datetime|date"
+                android:inputType="text|textEmailAddress"
                 android:minHeight="48dp"
                 android:paddingLeft="30sp"
                 app:layout_constraintEnd_toEndOf="parent"

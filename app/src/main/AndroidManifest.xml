@@ -88,6 +88,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="869507368891668"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="4ce765f395292f52fc08ad88adde3d91"/>
+
     </application>
 
 </manifest>

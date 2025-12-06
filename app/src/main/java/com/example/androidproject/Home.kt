@@ -24,12 +24,11 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         bottomNav = findViewById(R.id.bottomNavigationView)
         replaceFragment(home_fragment())
-
         val name_holder = findViewById<TextView>(R.id.name_holder)
         val address_holder = findViewById<TextView>(R.id.address_holder)
+        val avatar = findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.avatar)
 
         name_holder.setText("Nguyễn Hữu Tính")
         address_holder.setText("Bình Thuận")
@@ -45,6 +44,10 @@ class Home : AppCompatActivity() {
 //                R.id.bookingBtn -> replaceFragment(MyBookingFragment())
 //            }
             true
+        }
+
+        avatar.setOnClickListener {
+            replaceFragment(main_profile())
         }
     }
     fun replaceFragment(fragment: Fragment){

@@ -12,23 +12,59 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.facebook.CallbackManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
 import java.io.File
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Base64
+import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
     private lateinit var email_input: EditText
     private lateinit var password_input: EditText
+    lateinit var callBackManager: CallbackManager
 
+    private val mAuth : FirebaseAuth = FirebaseAuth.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        try {
+//            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+//            } else {
+//                @Suppress("DEPRECATION")
+//                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+//            }
+//
+//            // Lấy signatures an toàn
+//            val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                packageInfo.signingInfo?.apkContentsSigners ?: emptyArray()
+//            } else {
+//                @Suppress("DEPRECATION")
+//                packageInfo.signatures ?: emptyArray()
+//            }
+//
+//            for (signature in signatures) {
+//                val md = MessageDigest.getInstance("SHA")
+//                md.update(signature.toByteArray())
+//                val keyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+//                Log.e("KEY_HASH", "KeyHash: $keyHash")
+//            }
+//
+//        } catch (e: Exception) {
+//            Log.e("KEY_HASH_ERROR", e.toString())
+//        }
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -44,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         val rememberBtn : RadioButton = findViewById<RadioButton>(R.id.rememberBtn)
         val password_visibility = findViewById<ImageView>(R.id.password_visibility)
         val mAuth = FirebaseAuth.getInstance()
+        val facebook_login_Btn = findViewById<com.facebook.login.widget.LoginButton>(R.id.facebook_login_Btn)
 
         checkRemember()
         checkUserSession()
@@ -151,7 +188,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
 
         signupBtn.setOnClickListener {
@@ -168,8 +204,47 @@ class MainActivity : AppCompatActivity() {
                 password_input.transformationMethod = null
             }
         }
-    }
 
+        // Đăng nhập bằng facebook
+        callBackManager = CallbackManager.Factory.create()
+        facebook_login_Btn.setReadPermissions("email", "public_profile")
+        facebook_login_Btn.registerCallback(callBackManager, object : com.facebook.FacebookCallback<com.facebook.login.LoginResult> {
+            override fun onSuccess(loginResult: com.facebook.login.LoginResult) {
+                Log.d("Facebook", "onSuccess: Facebook login successful.")
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+            override fun onCancel() {
+                Log.d("Facebook", "onCancel: Facebook login canceled by user.")
+                Toast.makeText(this@MainActivity, "Login with Facebook canceled", Toast.LENGTH_SHORT).show()
+            }
+            override fun onError(error: com.facebook.FacebookException) {
+                Log.e("Facebook", "onError: ${error.message}")
+                Toast.makeText(this@MainActivity, "Login with Facebook failed: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callBackManager.onActivityResult(requestCode, resultCode, data)
+    }
+    private fun handleFacebookAccessToken(token: com.facebook.AccessToken) {
+        val credential = com.google.firebase.auth.FacebookAuthProvider.getCredential(token.token)
+        mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = mAuth.currentUser
+                Log.d("Facebook", "signInWithCredential: success")
+                Toast.makeText(this, "Login with Facebook successful.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
+                finish()
+            }
+            else {
+                Log.w("Facebook", "signInWithCredential: failure", task.exception)
+                Toast.makeText(this, "Login with Facebook failed.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     private fun Reset_all (email_input: EditText, password_input: EditText, incorrect_notification: TextView, rememberBtn: RadioButton) {
         email_input.text.clear()
         password_input.text.clear()

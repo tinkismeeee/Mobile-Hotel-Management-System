@@ -9,11 +9,21 @@ import retrofit2.http.DELETE
 
 
 interface ApiService {
-        @GET("api/staff")
-        fun getAllStaff(): Call<List<User>>
-        @GET("api/staff/{id}")
-        fun getUser(@retrofit2.http.Path("id") id: Int): Call<User>
-
+    @GET("api/rooms")
+    fun getAllRooms(): Call<List<Room>>
+    @GET("api/rooms/{id}")
+    fun getRoom(@retrofit2.http.Path("id") id: Int): Call<Room>
+    @POST("api/rooms")
+    fun addRoom(@Body room: Room): Call<Room>
+    @PUT("api/rooms/{id}")
+    fun updateRoom(@retrofit2.http.Path("id") id: Int, @Body updatedRoom: Room): Call<Room>
+    @DELETE("api/rooms/{id}")
+    fun deleteRoom(@retrofit2.http.Path("id") id: Int): Call<Void>
+    
+    @GET("api/staff")
+    fun getAllStaff(): Call<List<User>>
+    @GET("api/staff/{id}")
+    fun getUser(@retrofit2.http.Path("id") id: Int): Call<User>
 
     @POST("api/staff")
     fun addStaff(@Body user: NewUser): Call<User>
