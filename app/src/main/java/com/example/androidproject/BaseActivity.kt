@@ -9,7 +9,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     protected fun setupChatBot() {
-        val apiKey = "AIzaSyCyf7FnX06XvYJ-h2g_ISE_aOc9jv4PXrM"
+        val apiKey = "AIzaSyDMGUhwRedHFpArLkz1Ti933rdCSXIxFsU"
         HotelBotManager(this, apiKey).setup()
     }
 }
