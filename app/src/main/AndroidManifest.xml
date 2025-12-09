@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
+        android:name=".App"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidProject"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".room_detail"
+            android:exported="false" />
         <activity
             android:name=".admin"
             android:exported="false" />
@@ -88,9 +93,12 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="869507368891668"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="4ce765f395292f52fc08ad88adde3d91"/>
-
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="869507368891668" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="4ce765f395292f52fc08ad88adde3d91" />
     </application>
 
 </manifest>

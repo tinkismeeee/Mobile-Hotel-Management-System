@@ -40,9 +40,9 @@ class Home : AppCompatActivity() {
             when(it.itemId){
                 R.id.profileBtn -> replaceFragment(main_profile())
             }
-//            when(it.itemId){
-//                R.id.bookingBtn -> replaceFragment(MyBookingFragment())
-//            }
+            when(it.itemId){
+                R.id.bookingBtn -> replaceFragment(my_booking_fragment())
+            }
             true
         }
 

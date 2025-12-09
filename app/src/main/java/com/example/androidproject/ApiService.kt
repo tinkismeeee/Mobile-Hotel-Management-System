@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.DELETE
+import retrofit2.http.Query
 
 
 interface ApiService {
@@ -36,6 +37,9 @@ interface ApiService {
     @GET("api/customers")
     fun getAllCustomers(): Call<List<User1>>
 
+    @GET("api/customers")
+    fun getCustomerByEmail(@Query("email") email: String): Call<User1>
+
     @GET("api/customers/{id}")
     fun getCustomer(@retrofit2.http.Path("id") id: Int): Call<User1>
 
@@ -47,6 +51,8 @@ interface ApiService {
 
     @DELETE("api/customers/{id}")
     fun deleteCustomer(@retrofit2.http.Path("id") id: Int): Call<Void>
+
+
 
 }
 

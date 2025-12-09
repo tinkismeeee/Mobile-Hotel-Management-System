@@ -7,6 +7,7 @@ plugins {
     id("com.google.gms.google-services")
     alias(libs.plugins.kotlin.kapt)
     id("kotlin-parcelize")
+    alias(libs.plugins.realm.kotlin)
 }
 
 android {
@@ -79,4 +80,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
     implementation("com.facebook.android:facebook-login:latest.release")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("io.realm.kotlin:library-base:2.1.0")
 }

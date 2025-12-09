@@ -1,5 +1,6 @@
 package com.example.androidproject
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ class RoomAdapter(private val roomList: List<Room>) : RecyclerView.Adapter<RoomA
         val bedCount: TextView = itemView.findViewById(R.id.textviewBedCount)
         val description: TextView = itemView.findViewById(R.id.textviewDescription)
         val roomImage: ImageView = itemView.findViewById(R.id.roomImg)
+        val price: TextView = itemView.findViewById(R.id.textviewPrice)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.room_adapter, parent, false)
@@ -41,9 +43,26 @@ class RoomAdapter(private val roomList: List<Room>) : RecyclerView.Adapter<RoomA
         holder.maxGuests.text = "Max guests: ${currentRoom.maxGuests}"
         holder.bedCount.text = "Bed count: ${currentRoom.bedCount}"
         holder.description.text = "Description: ${currentRoom.description ?: "N/A"}"
+        holder.price.text = "Price: ${currentRoom.pricePerNight ?: "null"} VNĐ/night"
+        var randomImageId = 0
         if (roomImageIds.isNotEmpty()) {
-            val randomImageId = roomImageIds.random()
+            randomImageId = roomImageIds.random()
             holder.roomImage.setImageResource(randomImageId)
+        }
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, room_detail::class.java)
+            intent.putExtra("room_id", currentRoom.roomId)
+            intent.putExtra("roomNumber", currentRoom.roomNumber)
+            intent.putExtra("floor", currentRoom.floor)
+            intent.putExtra("roomTypeName", currentRoom.roomTypeName)
+            intent.putExtra("maxGuests", currentRoom.maxGuests)
+            intent.putExtra("bedCount", currentRoom.bedCount)
+            intent.putExtra("description", currentRoom.description)
+            intent.putExtra("pricePerNight", currentRoom.pricePerNight)
+            intent.putExtra("roomImageId", randomImageId)
+            context.startActivity(intent)
         }
     }
     override fun getItemCount(): Int {

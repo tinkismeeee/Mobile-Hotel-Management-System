@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         val password_visibility = findViewById<ImageView>(R.id.password_visibility)
         val mAuth = FirebaseAuth.getInstance()
         val facebook_login_Btn = findViewById<com.facebook.login.widget.LoginButton>(R.id.facebook_login_Btn)
+        val forgotpassword = findViewById<TextView>(R.id.forgotPassword)
 
         checkRemember()
         checkUserSession()
@@ -223,6 +224,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        //Reset password
+        forgotpassword.setOnClickListener {
+            val intent = Intent(this, forgot_password::class.java)
+            startActivity(intent)
+        }
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -245,6 +252,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun Reset_all (email_input: EditText, password_input: EditText, incorrect_notification: TextView, rememberBtn: RadioButton) {
         email_input.text.clear()
         password_input.text.clear()

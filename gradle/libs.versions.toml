@@ -1,6 +1,6 @@
 [versions]
 agp = "8.13.1"
-kotlin = "2.0.21"
+kotlin = "2.0.0"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -13,8 +13,9 @@ gridlayout = "1.1.0"
 firebaseDatabase = "22.0.1"
 cardview = "1.0.0"
 legacySupportV4 = "1.0.0"
-kotlinKapt = "2.0.21"
+kotlinKapt = "2.0.0"
 fragment = "1.8.9"
+realm = "2.1.0"
 recyclerview = "1.4.0"
 playServicesLocationVersion = "21.3.0"
 
@@ -39,4 +40,4 @@ gms-play-services-location = { group = "com.google.android.gms", name = "play-se
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinKapt" }
-
+realm-kotlin = { id = "io.realm.kotlin", version.ref = "realm" }

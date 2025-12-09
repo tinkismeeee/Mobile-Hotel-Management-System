@@ -24,5 +24,4 @@ data class Room(
     val bedCount: Int,
 
     val description: String?,
-
 )
