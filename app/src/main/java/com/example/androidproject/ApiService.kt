@@ -52,6 +52,7 @@ interface ApiService {
     @DELETE("api/customers/{id}")
     fun deleteCustomer(@retrofit2.http.Path("id") id: Int): Call<Void>
 
+    // Promotion
 
 
 }

@@ -15,7 +15,10 @@ class App : Application() {
 
         val config = RealmConfiguration.Builder(
             schema = setOf(BookingRealm::class)
-        ).build()
+
+        )
+            .deleteRealmIfMigrationNeeded()
+            .build()
 
         realm = Realm.open(config)
     }

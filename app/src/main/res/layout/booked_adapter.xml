@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/roomImg"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
+            android:background="@android:color/darker_gray"
+            android:src="@drawable/room_image_1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textviewRoomNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/textviewFloor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Room: 101" />
+
+            <TextView
+                android:id="@+id/textviewFloor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textviewRoomNumber"
+                tools:text="Floor 1" />
+
+            <TextView
+                android:id="@+id/textviewRoomType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Business"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textviewRoomNumber" />
+
+            <TextView
+                android:id="@+id/tvServices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="8"
+                android:text="- Laundry and ironing service\n- Buffet breakfast\n- Pickup from airport\n- Relaxing massage and spa\n- Dinner buffet at restaurant\n- In-room mini bar\n- Additional bed for extra guest\n- Daily city tour guide"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textviewRoomType"
+                app:layout_constraintTop_toBottomOf="@+id/textviewRoomType" />
+
+            <TextView
+                android:id="@+id/textviewMaxGuests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Max guests: 2"
+                android:textColor="#666666"
+                android:textSize="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvServices"
+                app:layout_constraintTop_toBottomOf="@+id/tvServices" />
+
+            <TextView
+                android:id="@+id/textviewBedCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Bed count: 2"
+                android:textColor="#666666"
+                android:textSize="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textviewMaxGuests"
+                app:layout_constraintTop_toBottomOf="@+id/textviewMaxGuests" />
+
+            <TextView
+                android:id="@+id/textviewPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Price per night: 1200000 VNĐ"
+                android:textColor="#FF9800"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvDaterange"
+                app:layout_constraintTop_toBottomOf="@+id/tvDaterange" />
+
+            <TextView
+                android:id="@+id/tvDaterange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Date Range"
+                android:textColor="#666666"
+                app:layout_constraintStart_toStartOf="@+id/textviewBedCount"
+                app:layout_constraintTop_toBottomOf="@+id/textviewBedCount" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

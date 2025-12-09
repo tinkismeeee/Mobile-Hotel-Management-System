@@ -22,7 +22,6 @@ class home_fragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     // Giả sử bạn đã có một Adapter tên là RoomAdapter
     private lateinit var roomAdapter: RoomAdapter
-    private val GOOGLE_API_KEY = "7139eb9e72384540b4d1b6d403c5b319"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -83,7 +83,6 @@ class room_detail : AppCompatActivity() {
         val maxGuestsVal = intent.getIntExtra("maxGuests", 0)
         val bedCountVal = intent.getIntExtra("bedCount", 0)
         val descriptionVal = intent.getStringExtra("description")
-        val pricePerNightVal = intent.getStringExtra("pricePerNight")
         val roomImageId = intent.getIntExtra("roomImageId", 0)
         val roomId = intent.getIntExtra("room_id", 0)
 
@@ -121,7 +120,7 @@ class room_detail : AppCompatActivity() {
 //            realm.writeBlocking {
 //                deleteAll()
 //            }
-//            printAllBookings()
+            printAllBookings()
 
             if (tvDateRange.text == "Chọn ngày") {
                 Toast.makeText(this, "Please select date range", Toast.LENGTH_SHORT).show()
@@ -226,17 +225,35 @@ class room_detail : AppCompatActivity() {
             .map { it.second }
 
         val bookingId = UUID.randomUUID().toString()
-
+        val priceString = intent.getStringExtra("pricePerNight")
+        val price = priceString?.toDoubleOrNull()?.toInt() ?: 0
+//        Log.i("DEBUG", "Intent Price: $priceString")
+//        Log.i("DEBUG", "Price: $price")
+        val roomNumberVal = intent.getStringExtra("roomNumber")
+        val floorVal = intent.getIntExtra("floor", 0)
+        val roomTypeVal = intent.getStringExtra("roomTypeName")
+        val maxGuestsVal = intent.getIntExtra("maxGuests", 0)
+        val bedCountVal = intent.getIntExtra("bedCount", 0)
+        val descriptionVal = intent.getStringExtra("description")
+        val roomImageId = intent.getIntExtra("roomImageId", 0)
+        val roomId = intent.getIntExtra("room_id", 0)
         val realm = App.realm
         realm.writeBlocking {
             copyToRealm(
                 BookingRealm().apply {
+                    this.roomNumber = roomNumberVal ?: ""
+                    this.floor = floorVal
+                    this.roomType = roomTypeVal ?: ""
+                    this.maxGuests = maxGuestsVal
+                    this.bedCount = bedCountVal
+                    this.description = descriptionVal ?: ""
                     this.bookingId = bookingId
                     this.roomId = roomId
                     this.userId = userId
                     this.checkIn = apiCheckIn
                     this.checkOut = apiCheckOut
                     this.totalGuests = MaxGuests.text.toString().toInt()
+                    this.price = price
                     this.services.addAll(selectedServices)
                 }
             )
@@ -249,15 +266,22 @@ class room_detail : AppCompatActivity() {
         val realm = App.realm
         val bookings = realm.query<BookingRealm>().find()
 
-        Log.i("REALM_DEBUG", "------ ALL BOOKINGS ------")
+        Log.i("DEBUG", "------ ALL BOOKINGS ------")
         bookings.forEach { b ->
-            Log.i("REALM_DEBUG", """
+            Log.i("RDEBUG", """
+            RoomNumber: ${b.roomNumber}
+            Floor: ${b.floor}
+            RoomType: ${b.roomType}
+            MaxGuests: ${b.maxGuests}
+            BedCount: ${b.bedCount}
+            Description: ${b.description}
             BookingId: ${b.bookingId}
             RoomId: ${b.roomId}
             UserId: ${b.userId}
             Check-in: ${b.checkIn}
             Check-out: ${b.checkOut}
             Guests: ${b.totalGuests}
+            Price: ${b.price}
             Services: ${b.services.joinToString()}
         """.trimIndent())
         }
