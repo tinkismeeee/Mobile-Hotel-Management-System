@@ -45,7 +45,7 @@ class BookedAdapter(private var bookings: List<BookingRealm>) :
         val formattedCheckOut = formatDate(booking.checkOut)
         holder.dateRange.text = "Date: $formattedCheckIn to $formattedCheckOut"
         val context = holder.itemView.context
-        val randomIndex = (1..30).random()
+        val randomIndex = (1..35).random()
         val imageName = "room_image_$randomIndex"
         val imageResId = context.resources.getIdentifier(imageName, "drawable", context.packageName)
         holder.roomImage.setImageResource(

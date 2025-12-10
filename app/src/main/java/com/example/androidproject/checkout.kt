@@ -1,10 +1,12 @@
 package com.example.androidproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -32,6 +34,7 @@ class checkout : AppCompatActivity() {
     private lateinit var tvTaxes: TextView
     private lateinit var tvDiscount: TextView
     private lateinit var tvTotal: TextView
+    private lateinit var btnBack: ImageButton
     private var basePrice: Int = 0
     private var taxesAmount: Int = 0
     private var discountAmount: Int = 0
@@ -62,6 +65,12 @@ class checkout : AppCompatActivity() {
         tvTaxes = findViewById(R.id.tvTaxes)
         tvDiscount = findViewById(R.id.Discount)
         tvTotal = findViewById(R.id.tvTotal)
+        btnBack = findViewById(R.id.btnBack)
+        btnConfirmPayment = findViewById(R.id.btnConfirmPayment)
+
+        btnBack.setOnClickListener {
+            finish()
+        }
 
         val roomNumber = intent.getStringExtra("roomNumber")
         val floor = intent.getIntExtra("floor", 0)
@@ -97,6 +106,17 @@ class checkout : AppCompatActivity() {
         tvTotal.text = "${formatMoney(finalTotalPrice)} VND"
 
         applyBtn.setOnClickListener { handleApplyPromoCode() }
+
+        btnConfirmPayment.setOnClickListener {
+            if (checkBox.isChecked) {
+                val intent = Intent(this, receipt::class.java)
+                intent.putExtra("totalPrice", finalTotalPrice.toString())
+                startActivity(intent)
+            }
+            else {
+                Toast.makeText(this, "Please check the agreement", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun handleApplyPromoCode() {
@@ -112,7 +132,7 @@ class checkout : AppCompatActivity() {
                     response: retrofit2.Response<List<Promotion>>
                 ) {
                     if (!response.isSuccessful || response.body() == null) {
-                        etPromoCode.error = "Failed to load promotions"
+                        etPromoCode.error = "Connecting to server failed"
                         return
                     }
                     val promo = response.body()!!.find { it.promotion_code == userInputCode }

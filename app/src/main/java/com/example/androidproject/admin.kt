@@ -21,9 +21,9 @@ class admin : AppCompatActivity() {
         val btnManageEmployees: Button = findViewById(R.id.btnManageEmployees)
         val btnManageCustomers: Button = findViewById(R.id.btnManageCustomers)
         val btnManageServices: Button = findViewById(R.id.btnManageServices)
-        val btnRevenue: Button = findViewById(R.id.btnRevenue)
         val btnLogout: Button = findViewById(R.id.btnLogout)
-
+        val btnRoom : Button = findViewById(R.id.btnRoom)
+        val btnRevenue : Button = findViewById(R.id.btnRevenue)
 
         btnManageEmployees.setOnClickListener {
             Toast.makeText(this, "Bạn đã nhấn Quản lý nhân viên", Toast.LENGTH_SHORT).show()
@@ -43,28 +43,26 @@ class admin : AppCompatActivity() {
             startActivity(intent)
         }
         btnManageServices.setOnClickListener {
-            Toast.makeText(this, "Bạn đã nhấn Quản lý dịch vụ", Toast.LENGTH_SHORT).show()
-
-        }
-
-        btnRevenue.setOnClickListener {
-            Toast.makeText(this, "Bạn đã nhấn Doanh thu", Toast.LENGTH_SHORT).show()
-
-        }
-
-
-        btnLogout.setOnClickListener {
-            Toast.makeText(this, "Đang thực hiện Logout...", Toast.LENGTH_SHORT).show()
-
-        }
-        btnLogout.setOnClickListener {
-            val intent = Intent(this, logout::class.java)
+            val intent = Intent(this, Dichvu::class.java)
             startActivity(intent)
         }
 
-        val logoutTextView = findViewById<TextView>(R.id.btnLogout)
-        logoutTextView.setOnClickListener {
+        btnRevenue.setOnClickListener {
+            val intent = Intent(this, DoanhThuActivity::class.java)
+            startActivity(intent)
+        }
 
+        btnRoom.setOnClickListener {
+            val intent = Intent(this, LoaiphongActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnRevenue.setOnClickListener {
+            val intent = Intent(this, DoanhThuActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnLogout.setOnClickListener {
             val intent = Intent(this, logout::class.java)
             startActivity(intent)
         }

@@ -10,8 +10,8 @@
         android:id="@+id/bookingBtn"
         />
     <item
-        android:id="@+id/messageBtn"
-        android:title="Messages"
+        android:id="@+id/aboutBtn"
+        android:title="About"
         android:icon="@drawable/message_regular"
         />
     <item android:title="Profile"

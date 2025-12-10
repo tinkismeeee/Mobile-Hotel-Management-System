@@ -24,6 +24,12 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val openFragment = intent.getStringExtra("openFragment")
+        if (openFragment == "my_booking") {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, my_booking_fragment())
+                .commit()
+        }
         bottomNav = findViewById(R.id.bottomNavigationView)
         replaceFragment(home_fragment())
         val name_holder = findViewById<TextView>(R.id.name_holder)
@@ -42,6 +48,9 @@ class Home : AppCompatActivity() {
             }
             when(it.itemId){
                 R.id.bookingBtn -> replaceFragment(my_booking_fragment())
+            }
+            when(it.itemId) {
+                R.id.aboutBtn -> replaceFragment(about_fragment())
             }
             true
         }
