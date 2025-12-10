@@ -47,7 +47,7 @@
     </RelativeLayout>
 
     <AutoCompleteTextView
-        android:id="@+id/actvSearchStudent"
+        android:id="@+id/actvSearchStaff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Auto complete text view..."

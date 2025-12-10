@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#80FFFFFF"> <!-- Màu hiệu ứng khi nhấn (Trắng mờ) -->
+
+    <!-- Lớp hình dạng chính -->
+    <item>
+        <shape android:shape="oval">
+            <!-- Màu nền của nút (Xanh dương đậm) -->
+            <solid android:color="#1E88E5"/>
+
+            <!-- Viền trắng xung quanh (để nổi bật trên nền app) -->
+            <stroke
+                android:width="2dp"
+                android:color="#FFFFFF"/>
+
+            <!-- Kích thước mặc định (nếu cần) -->
+            <size
+                android:width="60dp"
+                android:height="60dp"/>
+        </shape>
+    </item>
+</ripple>

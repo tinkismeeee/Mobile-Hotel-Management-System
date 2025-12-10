@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 
-class Home : AppCompatActivity() {
+class Home : BaseActivity() {
     private lateinit var bottomNav: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +58,8 @@ class Home : AppCompatActivity() {
         avatar.setOnClickListener {
             replaceFragment(main_profile())
         }
+
+        setupChatBot()
     }
     fun replaceFragment(fragment: Fragment){
         val fragmentManager: FragmentManager = supportFragmentManager

@@ -51,7 +51,7 @@ interface ApiService {
     @GET("api/customers")
     fun getAllCustomers(): Call<List<User1>>
 
-    @GET("api/customers")
+    @GET("api/customers/search")
     fun getCustomerByEmail(@Query("email") email: String): Call<User1>
 
     @GET("api/customers/{id}")
