@@ -131,7 +131,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Dịch vụ đi kèm"
+                android:text="Additional Services"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -168,7 +168,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_edittext"
-                    android:hint="Nhập mã (VD: PROMO10)"
+                    android:hint="Example: PROMO10"
                     android:paddingStart="16dp"
                     android:textSize="14sp" />
 
@@ -210,14 +210,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Giá phòng" />
+                        android:text="Room price" />
 
                     <TextView
                         android:id="@+id/tvRoomPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 VND"
-                        android:textColor="@color/black" />
+                        android:textColor="#666666" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -230,7 +230,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Thuế VAT (8%)"
+                        android:text="VAT (8%)"
                         android:textColor="#666666" />
 
                     <TextView
@@ -265,6 +265,29 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Discount"
+                        android:textColor="#666666" />
+
+                    <TextView
+                        android:id="@+id/Discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="0 VND"
+                        android:textColor="#666666" />
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -280,7 +303,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tổng cộng"
+                        android:text="Total"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />

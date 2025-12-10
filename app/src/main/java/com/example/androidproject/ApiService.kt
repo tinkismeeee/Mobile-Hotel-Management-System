@@ -53,6 +53,9 @@ interface ApiService {
     fun deleteCustomer(@retrofit2.http.Path("id") id: Int): Call<Void>
 
     // Promotion
+    @GET("api/promotions")
+    fun getAllPromotions(): Call<List<Promotion>>
+
 
 
 }

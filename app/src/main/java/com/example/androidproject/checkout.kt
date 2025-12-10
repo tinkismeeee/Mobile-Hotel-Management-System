@@ -1,30 +1,41 @@
 package com.example.androidproject
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import retrofit2.Call
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class checkout : AppCompatActivity() {
-    lateinit var hotelImg : ImageView
-    lateinit var tvRoomNumber : TextView
-    lateinit var tvRoomType : TextView
-    lateinit var tvDateRange : TextView
-    lateinit var tvGuests : TextView
-    lateinit var tvBedCount : TextView
-    lateinit var tvService : TextView
-    lateinit var etPromoCode : EditText
-    lateinit var applyBtn : Button
-    lateinit var checkBox : CheckBox
-    lateinit var btnConfirmPayment : Button
+    private lateinit var hotelImg : ImageView
+    private lateinit var tvRoomNumber : TextView
+    private lateinit var tvRoomType : TextView
+    private lateinit var tvDateRange : TextView
+    private lateinit var tvGuests : TextView
+    private lateinit var tvBedCount : TextView
+    private lateinit var tvService : TextView
+    private lateinit var etPromoCode : EditText
+    private lateinit var applyBtn : Button
+    private lateinit var checkBox : CheckBox
+    private lateinit var btnConfirmPayment : Button
+    private lateinit var tvRoomPrice: TextView
+    private lateinit var tvTaxes: TextView
+    private lateinit var tvDiscount: TextView
+    private lateinit var tvTotal: TextView
+    private var basePrice: Int = 0
+    private var taxesAmount: Int = 0
+    private var discountAmount: Int = 0
+    private var finalTotalPrice: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +46,7 @@ class checkout : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         hotelImg = findViewById(R.id.hotelImg)
         tvRoomNumber = findViewById(R.id.tvRoomNumber)
         tvRoomType = findViewById(R.id.tvRoomType)
@@ -46,27 +58,23 @@ class checkout : AppCompatActivity() {
         applyBtn = findViewById(R.id.btnApplyPromo)
         checkBox = findViewById(R.id.cbAgreement)
         btnConfirmPayment = findViewById(R.id.btnConfirmPayment)
-//        intent.putExtra("roomNumber", booking.roomNumber)
-//        intent.putExtra("floor", booking.floor)
-//        intent.putExtra("roomType", booking.roomType)
-//        intent.putExtra("maxGuests", booking.maxGuests)
-//        intent.putExtra("bedCount", booking.bedCount)
-//        intent.putExtra("totalPrice", formatMoney(finalTotal))
-//        intent.putStringArrayListExtra("listOfService", ArrayList(booking.services))
-//        intent.putExtra("roomImageId", imageResId)
-//        intent.putExtra("checkIn", booking.checkIn)
-//        intent.putExtra("checkOut", booking.checkOut)
+        tvRoomPrice = findViewById(R.id.tvRoomPrice)
+        tvTaxes = findViewById(R.id.tvTaxes)
+        tvDiscount = findViewById(R.id.Discount)
+        tvTotal = findViewById(R.id.tvTotal)
 
         val roomNumber = intent.getStringExtra("roomNumber")
         val floor = intent.getIntExtra("floor", 0)
         val roomType = intent.getStringExtra("roomType")
         val maxGuests = intent.getIntExtra("maxGuests", 0)
         val bedCount = intent.getIntExtra("bedCount", 0)
-        val totalPrice = intent.getStringExtra("totalPrice")
+        val totalPriceFromIntent = intent.getStringExtra("totalPrice")
         val listOfService = intent.getStringArrayListExtra("listOfService")
         val roomImageId = intent.getIntExtra("roomImageId", 0)
         val checkIn = intent.getStringExtra("checkIn")
         val checkOut = intent.getStringExtra("checkOut")
+
+        basePrice = totalPriceFromIntent?.replace(".", "")?.toIntOrNull() ?: 0
 
         tvRoomNumber.text = "Room ${roomNumber} - Floor $floor"
         tvRoomType.text = "Room type: ${roomType}"
@@ -74,21 +82,62 @@ class checkout : AppCompatActivity() {
         tvGuests.text = "Max number of guests: $maxGuests"
         tvBedCount.text = "Max number of bed: $bedCount"
         hotelImg.setImageResource(roomImageId)
-        if (listOfService != null) {
+        if (listOfService != null && listOfService.isNotEmpty()) {
             val mappedServices = mapServiceCodesToNames(listOfService)
             tvService.text = "- " + mappedServices.joinToString("\n- ")
         } else {
             tvService.text = "No services selected"
         }
 
-        applyBtn.setOnClickListener {
-            if (etPromoCode.text.isEmpty()) {
-                return@setOnClickListener
-            }
+        taxesAmount = (basePrice * 0.08).toInt()
+        finalTotalPrice = (basePrice + taxesAmount) - discountAmount
+        tvRoomPrice.text = "${formatMoney(basePrice)} VND"
+        tvTaxes.text = "${formatMoney(taxesAmount)} VND"
+        tvDiscount.text = "- ${formatMoney(discountAmount)} VND"
+        tvTotal.text = "${formatMoney(finalTotalPrice)} VND"
 
+        applyBtn.setOnClickListener { handleApplyPromoCode() }
+    }
+
+    private fun handleApplyPromoCode() {
+        val userInputCode = etPromoCode.text.toString().trim()
+        if (userInputCode.isEmpty()) {
+            etPromoCode.error = "Please enter promotion code"
+            return
         }
+        RetrofitClient.instance.getAllPromotions()
+            .enqueue(object : retrofit2.Callback<List<Promotion>> {
+                override fun onResponse(
+                    call: Call<List<Promotion>>,
+                    response: retrofit2.Response<List<Promotion>>
+                ) {
+                    if (!response.isSuccessful || response.body() == null) {
+                        etPromoCode.error = "Failed to load promotions"
+                        return
+                    }
+                    val promo = response.body()!!.find { it.promotion_code == userInputCode }
+                    if (promo == null) {
+                        etPromoCode.error = "Invalid promo code"
+                        return
+                    }
+                    val discountPercentage = promo.discount_value.toFloat().toInt()
+                    discountAmount = (basePrice * discountPercentage) / 100
+                    taxesAmount = (basePrice * 0.08).toInt()
+                    finalTotalPrice = (basePrice + taxesAmount) - discountAmount
+                    tvRoomPrice.text = "${formatMoney(basePrice)} VND"
+                    tvTaxes.text = "${formatMoney(taxesAmount)} VND"
+                    tvTotal.text = "${formatMoney(finalTotalPrice)} VND"
+                    tvDiscount.text = "- ${formatMoney(discountAmount)} VND"
+                    Toast.makeText(this@checkout, "Promo code applied!", Toast.LENGTH_SHORT).show()
+                    etPromoCode.isEnabled = false
+                    applyBtn.isEnabled = false
+                }
 
-
+                override fun onFailure(call: Call<List<Promotion>>, t: Throwable) {
+                    t.printStackTrace()
+                    etPromoCode.error = "Error connecting to server"
+                }
+            })
     }
 
     private fun mapServiceCodesToNames(serviceCodes: List<String>): List<String> {
@@ -115,5 +164,9 @@ class checkout : AppCompatActivity() {
         } catch (e: Exception) {
             dateString
         }
+    }
+
+    private fun formatMoney(amount: Int): String {
+        return "%,d".format(amount).replace(",", ".")
     }
 }
