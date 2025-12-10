@@ -20,16 +20,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.facebook.CallbackManager
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.database
-import java.io.File
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import android.content.pm.PackageManager
-import android.os.Build
-import android.util.Base64
-import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
     private lateinit var email_input: EditText
@@ -75,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         email_input = findViewById<EditText>(R.id.email_input)
         password_input = findViewById<EditText>(R.id.password_input)
         val signinBtn : Button = findViewById<Button>(R.id.signinBtn)
-        val signupBtn : TextView = findViewById<TextView>(R.id.signupBtn)
+        val signupBtn : TextView = findViewById<TextView>(R.id.resendBtn)
         val incorrect_notification : TextView = findViewById<TextView>(R.id.incorrect_notification)
         val rememberBtn : RadioButton = findViewById<RadioButton>(R.id.rememberBtn)
         val password_visibility = findViewById<ImageView>(R.id.password_visibility)

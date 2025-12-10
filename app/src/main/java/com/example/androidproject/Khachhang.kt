@@ -22,7 +22,7 @@ class KhachHangActivity : AppCompatActivity() {
     private lateinit var customerAdapter: CustormerAdapter
     private lateinit var actvSearchCustomer: AutoCompleteTextView
 
-    private var customerList = mutableListOf<User1>()        
+    private var customerList = mutableListOf<User1>()
     private var displayList = mutableListOf<User1>()
 
     private val EDIT_CUSTOMER_REQUEST = 100

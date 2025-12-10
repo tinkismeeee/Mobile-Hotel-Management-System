@@ -50,7 +50,6 @@ class signup : AppCompatActivity() {
         val username_input : EditText = findViewById<EditText>(R.id.username_input)
         val address_input : EditText = findViewById<EditText>(R.id.address_input)
         val phone_input : EditText = findViewById<EditText>(R.id.phone_input)
-        val facebook_login_btn: ImageView = findViewById<ImageView>(R.id.facebook_login)
 
         //AsteriskPasswordTransformationMethod
         class AsteriskPasswordTransformationMethod : PasswordTransformationMethod() {

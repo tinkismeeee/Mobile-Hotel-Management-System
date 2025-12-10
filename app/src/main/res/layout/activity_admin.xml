@@ -115,16 +115,18 @@
                     android:layout_marginBottom="18dp"
                     android:textSize="17sp"
                     app:cornerRadius="10dp"/>
+
                 <Button
                     android:id="@+id/btnRoom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Quản lí phòng"
+                    android:layout_marginBottom="18dp"
                     android:backgroundTint="#3F51B5"
-                    android:textColor="@android:color/white"
                     android:padding="16dp"
-                    android:layout_marginBottom="18dp" android:textSize="17sp"
-                    app:cornerRadius="10dp"/>
+                    android:text="Quản lí loại phòng"
+                    android:textColor="@android:color/white"
+                    android:textSize="17sp"
+                    app:cornerRadius="10dp" />
                 <Button
                     android:id="@+id/btnRevenue"
                     android:layout_width="match_parent"

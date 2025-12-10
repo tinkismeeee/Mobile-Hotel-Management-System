@@ -46,10 +46,10 @@
     </RelativeLayout>
 
     <AutoCompleteTextView
-        android:id="@+id/actvSearchStaff"
+        android:id="@+id/actvSearchService"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Auto complete text view..."
+        android:hint="Laundry"
         android:paddingVertical="10dp"
         android:paddingHorizontal="12dp"
         android:singleLine="true"

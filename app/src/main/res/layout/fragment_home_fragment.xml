@@ -53,14 +53,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
-                        android:text="Change your location to show nearby villas, hotels"
+                        android:text="If you don't know where you are, click the > button to show your location 😊"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/changeLocationBtn"
+                        app:layout_constraintEnd_toStartOf="@+id/getLocationBtn"
                         app:layout_constraintStart_toEndOf="@+id/locationBtn"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/changeLocationBtn"
+                        android:id="@+id/getLocationBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="Thay đổi vị trí"
@@ -84,65 +84,96 @@
                     app:layout_constraintTop_toBottomOf="@+id/location_layout" />
 
 
-                <LinearLayout
-                    android:id="@+id/linearLayout7"
-                    android:layout_width="0dp"
+                <HorizontalScrollView
+                    android:id="@+id/scrollCategory"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-                    <Button
-                        android:id="@+id/allBtn"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="16dp"
-                        android:backgroundTint="@color/button_color"
-                        android:fontFamily="@font/inter"
-                        android:text="All"
-                        app:cornerRadius="5sp" />
-
-                    <Button
-                        android:id="@+id/villasBtn"
+                    <LinearLayout
+                        android:id="@+id/linearLayout7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/button_border"
-                        android:backgroundTint="@android:color/transparent"
-                        android:fontFamily="@font/inter"
-                        android:text="Villas"
-                        android:textColor="#000000"
-                        android:textStyle="bold"
-                        android:visibility="invisible"
-                        app:cornerRadius="5sp"
-                        app:icon="@drawable/villa_icon"
-                        app:iconTintMode="multiply" />
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/hotelsBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:background="@drawable/button_border"
-                        android:backgroundTint="@android:color/transparent"
-                        android:text="Hotels"
-                        android:textColor="#000000"
-                        android:visibility="invisible"
-                        app:cornerRadius="5sp"
-                        app:icon="@drawable/hotel_icon"
-                        app:iconTintMode="multiply" />
+                        <Button
+                            android:id="@+id/allBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="16dp"
+                            android:backgroundTint="@color/button_color"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="All"
+                            app:cornerRadius="5sp" />
 
-                </LinearLayout>
+                        <Button
+                            android:id="@+id/Family"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/button_border"
+                            android:backgroundTint="@android:color/transparent"
+                            android:text="Family"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            app:cornerRadius="5sp"
+                            app:icon="@drawable/crown_solid_full"
+                            app:iconTintMode="multiply" />
+
+                        <Button
+                            android:id="@+id/Standard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/button_border"
+                            android:backgroundTint="@android:color/transparent"
+                            android:text="Standard"
+                            android:textColor="#000000"
+                            app:cornerRadius="5sp"
+                            app:icon="@drawable/ic_check"
+                            app:iconTintMode="multiply" />
+                        <Button
+                            android:id="@+id/Luxury"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/button_border"
+                            android:backgroundTint="@android:color/transparent"
+                            android:text="Luxury"
+                            android:textColor="#000000"
+                            app:cornerRadius="5sp"
+                            app:icon="@drawable/crown_solid_full"
+                            app:iconTintMode="multiply" />
+
+                        <Button
+                            android:id="@+id/Suite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/button_border"
+                            android:backgroundTint="@android:color/transparent"
+                            android:text="Suite"
+                            android:textColor="#000000"
+                            app:cornerRadius="5sp"
+                            app:icon="@drawable/gem_regular_full"
+                            app:iconTintMode="multiply" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewAllRoom"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:clipToPadding="false"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -150,7 +181,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+                    app:layout_constraintTop_toBottomOf="@+id/scrollCategory"
                     tools:itemCount="5" />
                 <!--                    tools:listitem="@layout/my_booking_item" />-->
 

@@ -1,6 +1,7 @@
 package com.example.androidproject
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +10,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
+import retrofit2.Call
+import retrofit2.Response
 
 class Home : BaseActivity() {
     private lateinit var bottomNav: BottomNavigationView
@@ -36,8 +41,8 @@ class Home : BaseActivity() {
         val address_holder = findViewById<TextView>(R.id.address_holder)
         val avatar = findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.avatar)
 
-        name_holder.setText("Nguyễn Hữu Tính")
-        address_holder.setText("Bình Thuận")
+//        name_holder.setText("Nguyễn Hữu Tính")
+//        address_holder.setText("Bình Thuận")
 
         bottomNav.setOnItemSelectedListener {
             when(it.itemId){
@@ -60,6 +65,38 @@ class Home : BaseActivity() {
         }
 
         setupChatBot()
+
+        val masterKey = MasterKey.Builder(this)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val session = EncryptedSharedPreferences.create(
+            this,
+            getString(R.string.session_file_name),
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        val userEmail = session.getString("email", null)
+        Log.i("DEBUG", userEmail.toString())
+        RetrofitClient.instance.getCustomerByEmail(userEmail!!)
+        .enqueue(object : retrofit2.Callback<User1> {
+            override fun onResponse(call: Call<User1>, response: Response<User1>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    val userId = user?.user_id ?: 0
+                    val first_name = user?.first_name ?: ""
+                    val last_name = user?.last_name ?: ""
+                    val address = user?.address ?: ""
+                    address_holder.text = address
+                    name_holder.text = "$first_name $last_name"
+                } else {
+                    Log.e("API", "Error: ${response.code()}")
+                }
+            }
+            override fun onFailure(call: Call<User1>, t: Throwable) {
+                Log.e("API_ERR", t.message ?: "Unknown error")
+            }
+        })
     }
     fun replaceFragment(fragment: Fragment){
         val fragmentManager: FragmentManager = supportFragmentManager

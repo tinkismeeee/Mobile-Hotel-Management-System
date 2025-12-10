@@ -45,26 +45,11 @@
             android:tint="#2BA8A1" />
     </RelativeLayout>
 
-    <AutoCompleteTextView
-        android:id="@+id/actvSearchStaff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Auto complete text view..."
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="12dp"
-        android:singleLine="true"
-        android:textColor="#1A2C43"
-        android:textSize="16sp"
-        android:background="@drawable/bg_autocomplete_border"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="8dp"
-        android:completionThreshold="1"
-        android:layout_marginBottom="16dp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1" />
 
 </LinearLayout>

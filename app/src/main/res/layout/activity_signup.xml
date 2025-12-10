@@ -71,16 +71,6 @@
                 android:translationY="10sp" />
 
             <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter_light"
-                android:text="or sign up with"
-                android:textAlignment="center"
-                android:textColor="#838383" />
-
-            <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
@@ -90,51 +80,6 @@
                 android:textAlignment="center"
                 android:translationY="10sp" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="78dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rounded_background_logo_singin"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:scaleType="centerInside"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            app:srcCompat="@drawable/google_logo" />
-
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="78dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rounded_background_logo_singin"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            app:layout_constraintEnd_toStartOf="@+id/facebook_login"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            app:srcCompat="@drawable/apple_logo" />
-
-        <ImageView
-            android:id="@+id/facebook_login"
-            android:layout_width="78dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rounded_background_logo_singin"
-            android:paddingLeft="10dp"
-            android:paddingTop="7dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="7dp"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            app:srcCompat="@drawable/facebook_logo" />
 
         <Button
             android:id="@+id/continueBtn"

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -47,6 +48,8 @@ class enterOTP : AppCompatActivity() {
         val email_holder = findViewById<TextView>(R.id.email_holder)
         var OTP_code : String = ""
         var otp_check : Boolean = false
+        val resending_otp = findViewById<TextView>(R.id.resendBtn)
+        val countdown = findViewById<TextView>(R.id.countdown)
 
         val masterKey = MasterKey.Builder(this)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -91,6 +94,7 @@ class enterOTP : AppCompatActivity() {
                             blurLayout.visibility = View.VISIBLE
                             terms_layout.visibility = View.VISIBLE
                             terms_layout.bringToFront()
+                            countdown.text = ""
                             disable_all(first_number, second_number, third_number, fourth_number, continueBtn)
                             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                             imm.hideSoftInputFromWindow(first_number.windowToken, 0)
@@ -133,8 +137,40 @@ class enterOTP : AppCompatActivity() {
             }
             finish()
         }
-    }
+        resending_otp.setOnClickListener {
+            startCountdown(resending_otp, countdown)
 
+            sendOtp(email.toString()) { success, message ->
+                runOnUiThread {
+                    if (success) {
+                        Toast.makeText(this, "OTP sent successfully!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Failed to send OTP", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+    }
+    fun startCountdown(resendBtn: TextView, countdown: TextView) {
+        resendBtn.isEnabled = false
+        resendBtn.alpha = 0.5f
+
+        object : CountDownTimer(30000, 1000) {  // 30s
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = millisUntilFinished / 1000
+                countdown.text = "Resend available in: ${seconds}s"
+                countdown.visibility = View.VISIBLE
+            }
+
+            override fun onFinish() {
+                countdown.visibility = View.GONE
+                resendBtn.isEnabled = true
+                resendBtn.alpha = 1f
+                resendBtn.text = "Resend Code"
+            }
+        }.start()
+    }
     fun disable_all (first_number: EditText, second_number: EditText, third_number: EditText, fourth_number: EditText, continueBtn: Button) {
         first_number.isEnabled = false
         second_number.isEnabled = false

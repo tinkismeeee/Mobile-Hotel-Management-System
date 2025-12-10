@@ -1,6 +1,7 @@
 package com.example.androidproject
 
 import BookingRealm
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -10,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -47,6 +50,7 @@ class room_detail : AppCompatActivity() {
     lateinit var tvDateRange: TextView
     private var apiCheckIn = ""
     private var apiCheckOut = ""
+    private val CHANNEL_ID : String = "booking_channel"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -55,6 +59,13 @@ class room_detail : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1002)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val nm = getSystemService(android.app.NotificationManager::class.java)
+            nm.deleteNotificationChannel(CHANNEL_ID)
         }
         btnBookNow = findViewById(R.id.btnBookNow)
         laundry_service = findViewById(R.id.laundry_service)
@@ -258,7 +269,20 @@ class room_detail : AppCompatActivity() {
                 }
             )
         }
-        Toast.makeText(this, "Booked successfully", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "Booked successfully", Toast.LENGTH_SHORT).show()
+        createNotificationChannel()
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle("Booking Notification")
+            .setContentText("Your booking has been successfully created!")
+            .setStyle(NotificationCompat.BigTextStyle().bigText("Your booking has been successfully created! Booking ID: $bookingId"))
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+
+        val notificationManager = NotificationManagerCompat.from(this)
+        notificationManager.notify(1, builder.build())
+
         printAllBookings()
         finish()
     }
@@ -284,6 +308,18 @@ class room_detail : AppCompatActivity() {
             Price: ${b.price}
             Services: ${b.services.joinToString()}
         """.trimIndent())
+        }
+    }
+    private fun createNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val name = "Booking Channel"
+            val descriptionText = "Notification for booking successful"
+            val importance = android.app.NotificationManager.IMPORTANCE_MAX
+            val channel = android.app.NotificationChannel("booking_channel", name, importance)
+            channel.description = descriptionText
+
+            val notificationManager = getSystemService(android.app.NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }
