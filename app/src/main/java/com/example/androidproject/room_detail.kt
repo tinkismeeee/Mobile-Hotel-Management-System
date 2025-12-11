@@ -1,8 +1,13 @@
 package com.example.androidproject
 
 import BookingRealm
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
@@ -28,8 +33,12 @@ import java.util.Locale
 import java.util.UUID
 import io.realm.kotlin.ext.query
 
-
 class room_detail : AppCompatActivity() {
+    companion object {
+        private const val CHANNEL_ID = "booking_channel"
+        private const val NOTIF_ID = 1001
+    }
+
     lateinit var btnBookNow : Button
     lateinit var laundry_service : Button
     lateinit var breakfast_service : Button
@@ -50,7 +59,7 @@ class room_detail : AppCompatActivity() {
     lateinit var tvDateRange: TextView
     private var apiCheckIn = ""
     private var apiCheckOut = ""
-    private val CHANNEL_ID : String = "booking_channel"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -60,13 +69,14 @@ class room_detail : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        createNotificationChannel()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1002)
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1002)
+            }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val nm = getSystemService(android.app.NotificationManager::class.java)
-            nm.deleteNotificationChannel(CHANNEL_ID)
-        }
+
+        // find views
         btnBookNow = findViewById(R.id.btnBookNow)
         laundry_service = findViewById(R.id.laundry_service)
         breakfast_service = findViewById(R.id.breakfast_service)
@@ -97,12 +107,9 @@ class room_detail : AppCompatActivity() {
         val roomImageId = intent.getIntExtra("roomImageId", 0)
         val roomId = intent.getIntExtra("room_id", 0)
 
-        // Log.i("DEBUG", roomId.toString())
-
         val selectedServices = mutableListOf<String>()
 
         imageView.setImageResource(roomImageId)
-
         roomNumber.text = ("Room: " + roomNumberVal) ?: ""
         RoomType.text = roomTypeVal ?: ""
         Floor.text = floorVal.toString() ?: "0"
@@ -127,10 +134,6 @@ class room_detail : AppCompatActivity() {
         localguide_service.setOnClickListener { toggleServiceButton(localguide_service) }
 
         btnBookNow.setOnClickListener {
-//            val realm = App.realm
-//            realm.writeBlocking {
-//                deleteAll()
-//            }
             printAllBookings()
 
             if (tvDateRange.text == "Chọn ngày") {
@@ -156,7 +159,7 @@ class room_detail : AppCompatActivity() {
                             val user = response.body()
                             val userId = user?.user_id ?: 0
                             Log.i("DEBUG", userId.toString())
-                            createBooking(roomId, userId!!)
+                            createBooking(roomId, userId)
                         } else {
                             Log.e("API", "Error: ${response.code()}")
                         }
@@ -169,7 +172,6 @@ class room_detail : AppCompatActivity() {
     }
 
     private fun showDateRangePicker(onSelected: (String, String, String, String) -> Unit) {
-
         val constraints = CalendarConstraints.Builder()
             .setStart(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
@@ -238,8 +240,7 @@ class room_detail : AppCompatActivity() {
         val bookingId = UUID.randomUUID().toString()
         val priceString = intent.getStringExtra("pricePerNight")
         val price = priceString?.toDoubleOrNull()?.toInt() ?: 0
-//        Log.i("DEBUG", "Intent Price: $priceString")
-//        Log.i("DEBUG", "Price: $price")
+
         val roomNumberVal = intent.getStringExtra("roomNumber")
         val floorVal = intent.getIntExtra("floor", 0)
         val roomTypeVal = intent.getStringExtra("roomTypeName")
@@ -269,23 +270,48 @@ class room_detail : AppCompatActivity() {
                 }
             )
         }
-//        Toast.makeText(this, "Booked successfully", Toast.LENGTH_SHORT).show()
-        createNotificationChannel()
+
+        val notifEnabled = NotificationManagerCompat.from(this).areNotificationsEnabled()
+        if (!notifEnabled) {
+            Toast.makeText(this, "Notifications are disabled for this app. Please enable them in system settings.", Toast.LENGTH_LONG).show()
+        }
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Booking Notification")
-            .setContentText("Your booking has been successfully created!")
-            .setStyle(NotificationCompat.BigTextStyle().bigText("Your booking has been successfully created! Booking ID: $bookingId"))
-            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setContentTitle("Booking Successful")
+            .setContentText("Your booking has been created!")
+            .setStyle(NotificationCompat.BigTextStyle().bigText("Your booking has been created! Booking ID: $bookingId"))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setAutoCancel(true)
 
-        val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(1, builder.build())
+        try {
+            NotificationManagerCompat.from(this).notify(NOTIF_ID, builder.build())
+        } catch (e: Exception) {
+            Log.e("NOTIF_ERROR", "Failed to send notification", e)
+        }
+
+        try {
+            NotificationStorage.save(
+                this,
+                NotificationItem(
+                    "Booking Successful",
+                    "Your booking has been successfully created! Booking ID: $bookingId",
+                    System.currentTimeMillis()
+                )
+            )
+        } catch (e: Exception) {
+            Log.e("NOTIF_SAVE_ERR", "Failed to save notification", e)
+        }
 
         printAllBookings()
-        finish()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 600)
     }
+
     private fun printAllBookings() {
         val realm = App.realm
         val bookings = realm.query<BookingRealm>().find()
@@ -310,16 +336,14 @@ class room_detail : AppCompatActivity() {
         """.trimIndent())
         }
     }
-    private fun createNotificationChannel() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val name = "Booking Channel"
-            val descriptionText = "Notification for booking successful"
-            val importance = android.app.NotificationManager.IMPORTANCE_MAX
-            val channel = android.app.NotificationChannel("booking_channel", name, importance)
-            channel.description = descriptionText
 
-            val notificationManager = getSystemService(android.app.NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, "Booking Channel", importance)
+            channel.description = "Notifications for successful bookings"
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
         }
     }
 }

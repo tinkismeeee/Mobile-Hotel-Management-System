@@ -1,7 +1,9 @@
 package com.example.androidproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,7 @@ import retrofit2.Response
 
 class Home : BaseActivity() {
     private lateinit var bottomNav: BottomNavigationView
+    private lateinit var notificationBtn : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -77,26 +80,37 @@ class Home : BaseActivity() {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
         val userEmail = session.getString("email", null)
-        Log.i("DEBUG", userEmail.toString())
-        RetrofitClient.instance.getCustomerByEmail(userEmail!!)
-        .enqueue(object : retrofit2.Callback<User1> {
-            override fun onResponse(call: Call<User1>, response: Response<User1>) {
-                if (response.isSuccessful) {
-                    val user = response.body()
-                    val userId = user?.user_id ?: 0
-                    val first_name = user?.first_name ?: ""
-                    val last_name = user?.last_name ?: ""
-                    val address = user?.address ?: ""
-                    address_holder.text = address
-                    name_holder.text = "$first_name $last_name"
-                } else {
-                    Log.e("API", "Error: ${response.code()}")
-                }
-            }
-            override fun onFailure(call: Call<User1>, t: Throwable) {
-                Log.e("API_ERR", t.message ?: "Unknown error")
-            }
-        })
+        if (userEmail != null) {
+            Log.i("DEBUG", userEmail.toString())
+            RetrofitClient.instance.getCustomerByEmail(userEmail!!)
+                .enqueue(object : retrofit2.Callback<User1> {
+                    override fun onResponse(call: Call<User1>, response: Response<User1>) {
+                        if (response.isSuccessful) {
+                            val user = response.body()
+                            val userId = user?.user_id ?: 0
+                            val first_name = user?.first_name ?: ""
+                            val last_name = user?.last_name ?: ""
+                            val address = user?.address ?: ""
+                            address_holder.text = address
+                            name_holder.text = "$first_name $last_name"
+                        } else {
+                            Log.e("API", "Error: ${response.code()}")
+                        }
+                    }
+                    override fun onFailure(call: Call<User1>, t: Throwable) {
+                        Log.e("API_ERR", t.message ?: "Unknown error")
+                    }
+                })
+        }
+        else {
+            name_holder.setText("Nguyễn Hữu Tính")
+            address_holder.setText("Phú Qúy, Bình Thuận")
+        }
+        notificationBtn = findViewById(R.id.notificationBtn)
+        notificationBtn.setOnClickListener {
+            val intent = Intent(this, Notification_History::class.java)
+            startActivity(intent)
+        }
     }
     fun replaceFragment(fragment: Fragment){
         val fragmentManager: FragmentManager = supportFragmentManager
