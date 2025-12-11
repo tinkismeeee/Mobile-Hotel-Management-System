@@ -20,15 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidProject"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".Notification_History"
+            android:exported="false" />
         <activity
             android:name=".receipt"
             android:exported="false" />
         <activity
             android:name=".checkout"
             android:exported="false" />
-        <activity android:name=".Notification_History" android:exported="false" />
-
         <activity
             android:name=".room_detail"
             android:exported="false" />

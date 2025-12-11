@@ -93,8 +93,11 @@ class Home : BaseActivity() {
                             val address = user?.address ?: ""
                             address_holder.text = address
                             name_holder.text = "$first_name $last_name"
+                            Log.i("DEBUG", "${name_holder.text.toString()} | ${address_holder.text.toString()}")
                         } else {
                             Log.e("API", "Error: ${response.code()}")
+                            name_holder.setText("Nguyễn Hữu Tính")
+                            address_holder.setText("Phú Qúy, Bình Thuận")
                         }
                     }
                     override fun onFailure(call: Call<User1>, t: Throwable) {

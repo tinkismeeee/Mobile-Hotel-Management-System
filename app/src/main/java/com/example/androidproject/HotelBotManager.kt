@@ -59,6 +59,12 @@ class HotelBotManager(
     QUY TẮC HIỂU NGÔN NGỮ NGƯỜI DÙNG
     ----------------------------------
 
+        Khi khách chào hỏi bằng "xin chào" hoặc những thứ tương tự:
+        - Ví dụ:
+            "Xin chào"
+            "Chào bạn"
+            "Chào"
+        -> Chào lại khách bằng những câu sau: "Xin chào, bạn cần giúp gì", "Chào bạn, tôi là chatbot thông minh giúp bạn tìm phòng phù hợp"
     1️⃣ Khi khách yêu cầu theo SỐ NGƯỜI:
        - Ví dụ:
          "Tìm phòng 2 người" → [[SEARCH:2:-1]]

@@ -23,6 +23,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.androidproject.App.Companion.realm
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.gson.Gson
@@ -134,10 +135,12 @@ class room_detail : AppCompatActivity() {
         localguide_service.setOnClickListener { toggleServiceButton(localguide_service) }
 
         btnBookNow.setOnClickListener {
-            printAllBookings()
-
             if (tvDateRange.text == "Chọn ngày") {
                 Toast.makeText(this, "Please select date range", Toast.LENGTH_SHORT).show()
+                val realm = App.realm
+                realm.writeBlocking {
+                    deleteAll()
+                }
                 return@setOnClickListener
             }
 
@@ -212,11 +215,15 @@ class room_detail : AppCompatActivity() {
     }
 
     private fun createBooking(roomId: Int, userId: Int) {
-
         val apiDates = tvDateRange.tag as? Pair<String, String>
-        if (apiDates == null) {
+
+        if (tvDateRange.text == "Chọn ngày" || apiDates == null) {
             Toast.makeText(this, "Invalid date", Toast.LENGTH_SHORT).show()
-            return
+            val realm = App.realm
+            realm.writeBlocking {
+                deleteAll()
+            }
+            return@createBooking
         }
 
         val apiCheckIn = apiDates.first
@@ -286,10 +293,20 @@ class room_detail : AppCompatActivity() {
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setAutoCancel(true)
 
-        try {
-            NotificationManagerCompat.from(this).notify(NOTIF_ID, builder.build())
-        } catch (e: Exception) {
-            Log.e("NOTIF_ERROR", "Failed to send notification", e)
+        with(NotificationManagerCompat.from(this)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.w("NOTIF_PERMISSION", "POST_NOTIFICATIONS permission not granted. Skipping notification.")
+            } else {
+                try {
+                    notify(NOTIF_ID, builder.build())
+                } catch (e: SecurityException) {
+                    Log.e("NOTIF_ERROR", "SecurityException: Failed to send notification. Permission might be missing.", e)
+                } catch (e: Exception) {
+                    Log.e("NOTIF_ERROR", "Failed to send notification", e)
+                }
+            }
         }
 
         try {
@@ -318,7 +335,7 @@ class room_detail : AppCompatActivity() {
 
         Log.i("DEBUG", "------ ALL BOOKINGS ------")
         bookings.forEach { b ->
-            Log.i("RDEBUG", """
+            Log.i("DEBUG", """
             RoomNumber: ${b.roomNumber}
             Floor: ${b.floor}
             RoomType: ${b.roomType}

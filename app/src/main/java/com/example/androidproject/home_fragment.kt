@@ -114,7 +114,7 @@ class home_fragment : Fragment() {
 
         luxuryBtn.setOnClickListener {
             displayList.clear()
-            displayList.addAll(list_room.filter { it.roomTypeName.equals("Luxury", ignoreCase = true) })
+            displayList.addAll(list_room.filter { it.roomTypeName.equals("Deluxe", ignoreCase = true) })
             roomAdapter.notifyDataSetChanged()
         }
 

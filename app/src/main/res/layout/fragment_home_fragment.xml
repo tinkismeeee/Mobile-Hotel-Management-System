@@ -124,7 +124,7 @@
                             android:textColor="#000000"
                             android:textStyle="bold"
                             app:cornerRadius="5sp"
-                            app:icon="@drawable/crown_solid_full"
+                            app:icon="@drawable/people_group_solid_full"
                             app:iconTintMode="multiply" />
 
                         <Button
@@ -146,7 +146,7 @@
                             android:layout_marginEnd="16dp"
                             android:background="@drawable/button_border"
                             android:backgroundTint="@android:color/transparent"
-                            android:text="Luxury"
+                            android:text="Deluxe"
                             android:textColor="#000000"
                             app:cornerRadius="5sp"
                             app:icon="@drawable/crown_solid_full"
